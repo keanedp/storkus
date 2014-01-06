@@ -18,7 +18,7 @@
 ;============================================================
 
 !cpu 6502
-!to "build/hello_world.prg",cbm    ; output file
+!to "build/keano.prg",cbm    ; output file
 
 ;============================================================
 ; BASIC loader with start address $c000
@@ -39,7 +39,7 @@
 ;    setup and init symbols we use in the code
 ;============================================================
 
-!source "code/setup_symbols.asm"
+!source "code/config_symbols.asm"
 
 ;============================================================
 ; tables and strings of data 
@@ -66,4 +66,4 @@
 ; load resource files (for this small intro its just the sid)
 ;============================================================
 
-!source "code/load_resources.asm"
+!source "code/config_resources.asm"
