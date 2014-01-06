@@ -46,6 +46,7 @@
 ;============================================================
 
 !source "code/data_static_text.asm"
+!source "code/data_main_menu.asm"
 !source "code/data_colorwash.asm"
 
 ;============================================================
