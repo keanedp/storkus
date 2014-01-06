@@ -52,7 +52,7 @@
 ; one-time initialization routines
 ;============================================================
 
-!source "code/init_clear_screen.asm"
+!source "code/sub_clear_screen.asm"
 !source "code/init_static_text.asm"
 
 ;============================================================

@@ -4,7 +4,7 @@
 
            sei         ; set interrupt disable flag
             
-           jsr init_screen     ; clear the screen
+           jsr clear_screen     ; clear the screen
            jsr write_text       ; write lines of text
            jsr sid_init     ; init music routine now
 
