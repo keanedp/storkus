@@ -45,7 +45,7 @@
 ; tables and strings of data 
 ;============================================================
 
-!source "code/data_main_menu.asm"
+!source "code/data_main_menu_text.asm"
 !source "code/data_colorwash.asm"
 
 ;============================================================

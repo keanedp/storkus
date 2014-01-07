@@ -1,10 +1,10 @@
 main_menu_line1   !scr "    keano game corp proudly presnets    "
-line2   		  !scr "         proudly presents...            " 
+main_menu_title   !scr "                 storko                 " 
 
 main_menu_top  	!scr "     ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]     "
 				!scr "     ]]                          ]]     "
 				!scr "     ]]                          ]]     "
-				!scr "   ]]   select difficulty level:   ]]   "
+				!scr "   ]]    select difficulty level   ]]   "
 				!scr " ]]                                  ]] "
 main_menu_btm	!scr " ]]             * easy               ]] "
 			    !scr "   ]]             hard             ]]   "

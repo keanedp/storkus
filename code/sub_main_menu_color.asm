@@ -14,14 +14,14 @@ loop_line1         lda color+1,x      ; Start cycle by fetching next color in th
                    cpx #$28           ; have we done 40 iterations yet?
                    bne loop_line1         ; if no, continue
 
-; colwash_line2      lda color2+$28     ; load current last color from second table
-;                    sta color2+$00     ; store in in first position of table to reset the cycle
-;                    ldx #$28
-; loop_line2         lda color2-1,x     ; Start cycle by fetching previous color in the table...
-;                    sta color2,x       ; ...and store it in the current active position.
-;                    sta $d8a0,x        ; put into Color Ram
-;                    dex                ; decrease iterator
-;                    bne loop_line2         ; if x not zero yet, continue
+colwash_line2      lda color2+$28     ; load current last color from second table
+                   sta color2+$00     ; store in in first position of table to reset the cycle
+                   ldx #$28
+loop_line2         lda color2-1,x     ; Start cycle by fetching previous color in the table...
+                   sta color2,x       ; ...and store it in the current active position.
+                   sta $d940,x        ; put into Color Ram
+                   dex                ; decrease iterator
+                   bne loop_line2         ; if x not zero yet, continue
 
                    ldx #$00
 color_menu_menu    lda #$04

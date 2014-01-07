@@ -14,8 +14,8 @@ write_text       lda $d018
   		           ldx #$00         ; init X-Register with $00
 loop_text        lda main_menu_line1,x      ; read characters from line1 table of text...
                  sta $0450,x      ; ...and store in screen ram near the center
-                 ; lda line2,x      ; read characters from line1 table of text...
-                 ; sta $04a0,x      ; ...and put 2 rows below line1
+                 lda main_menu_title,x      ; read characters from line1 table of text...
+                 sta $0540,x      ; ...and put 2 rows below line1
 
                  inx 
                  cpx #$28         ; finished when all 40 cols of a line are processed
