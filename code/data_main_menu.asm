@@ -1,3 +1,6 @@
+main_menu_line1   !scr "    keano game corp proudly presnets    "
+line2   		  !scr "         proudly presents...            " 
+
 main_menu_top  	!scr "     ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]     "
 				!scr "     ]]                          ]]     "
 				!scr "     ]]                          ]]     "

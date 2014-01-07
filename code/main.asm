@@ -5,7 +5,7 @@
            sei         ; set interrupt disable flag
             
            jsr clear_screen     ; clear the screen
-           jsr write_text       ; write lines of text
+           jsr write_main_menu  ; write lines of text
            jsr sid_init     ; init music routine now
 
            ldy #$7f    ; $7f = %01111111
@@ -39,7 +39,7 @@
 
 irq        dec $d019        ; acknowledge IRQ / clear register for next interrupt
 
-           jsr colwash      ; jump to color cycling routine
+           jsr color_main_screen      ; jump to color cycling routine
            jsr play_music	  ; jump to play music routine
 
 

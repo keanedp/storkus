@@ -45,7 +45,6 @@
 ; tables and strings of data 
 ;============================================================
 
-!source "code/data_static_text.asm"
 !source "code/data_main_menu.asm"
 !source "code/data_colorwash.asm"
 
@@ -54,13 +53,13 @@
 ;============================================================
 
 !source "code/sub_clear_screen.asm"
-!source "code/init_static_text.asm"
+!source "code/sub_main_menu_text.asm"
 
 ;============================================================
 ;    subroutines called during custom IRQ
 ;============================================================
 
-!source "code/sub_colorwash.asm"
+!source "code/sub_main_menu_color.asm"
 !source "code/sub_music.asm"
 
 ;============================================================
