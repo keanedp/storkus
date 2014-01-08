@@ -1,0 +1,33 @@
+Main Menu Screen
+
+========================================
+
+	   			STORKO
+
+
+	   COPYRIGHT KEANO GAMES. 1982	
+
+		      START GAME
+		      HELP
+
+		 A KEANO GAMES PRODUCTION
+
+========================================
+
+
+
+HELP SCREEN
+
+========================================
+
+	
+	CONTROLS:
+
+		W - UP
+		S - DOWN
+		A - LEFT
+		D - RIGHT
+		RUN/STOP - QUIT
+
+
+========================================
