@@ -59,6 +59,7 @@
 ;    subroutines called during custom IRQ
 ;============================================================
 
+!source "code/sub_main_menu_keyboard.asm"
 !source "code/sub_main_menu_color.asm"
 !source "code/sub_music.asm"
 

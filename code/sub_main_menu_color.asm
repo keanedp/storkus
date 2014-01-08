@@ -24,7 +24,7 @@ loop_line2         lda color2-1,x     ; Start cycle by fetching previous color i
                    bne loop_line2         ; if x not zero yet, continue
 
                    ldx #$00
-color_menu_menu    lda #$04
+color_menu_menu    lda #$05
                    sta $da30,x  ; top half (5 rows)
                    sta $daf8,x  ; bottom half (5 rows)
                    inx

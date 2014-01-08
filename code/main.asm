@@ -39,8 +39,8 @@
 
 irq        dec $d019        ; acknowledge IRQ / clear register for next interrupt
 
+           jsr check_keyboard
            jsr color_main_screen      ; jump to color cycling routine
            jsr play_music	  ; jump to play music routine
-
 
            jmp $ea81        ; return to kernel interrupt routine

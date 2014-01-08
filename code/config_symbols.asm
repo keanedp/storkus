@@ -7,5 +7,12 @@ address_title_chars = $3000 ; load address for title character map
 
 sid_init = $1000      ; init routine for music
 sid_play = $1006      ; play music routine
+pra = $dc00     ; CIA#1 (Port Register A)
+prb = $dc01     ; CIA#1 (Port Register B)
+ddra = $dc02     ; CIA#1 (Data Direction Register A)
+ddrb = $dc03     ; CIA#1 (Data Direction Register B)
 
-main_menu_color = $04
+
+; global memory
+selected_difficulty = $0900
+
