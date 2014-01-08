@@ -38,29 +38,37 @@
 ;============================================================
 
 irq        jsr check_keyboard
-           jsr write_main_menu
-           jsr color_main_screen      ; jump to color cycling routine
+           ; lda #$04 ; color test
+           ; sta $d020
+           ; sta $d021
+
+           jsr write_title
            jsr play_music	  ; jump to play music routine
+           jsr color_title      ; jump to color cycling routine
 
            lda #<irq2   ; point IRQ Vector to our custom irq routine
            ldx #>irq2
            sta $314    ; store in $314/$315
            stx $315   
 
-           lda #$00    ; trigger first interrupt at row zero
+           lda #80    ; trigger first interrupt at row zero
            sta $d012
 
            dec $d019        ; acknowledge IRQ / clear register for next interrupt
            jmp $ea81        ; return to kernel interrupt routine
 
-irq2       jsr setup_title_menu
+irq2       ;lda #$08  ; color test
+           ;sta $d020
+           ;sta $d021
+           jsr write_main_menu
+           jsr color_remainder
 
            lda #<irq   ; point IRQ Vector to our custom irq routine
            ldx #>irq
            sta $314    ; store in $314/$315
            stx $315   
 
-           lda #$a0    ; trigger first interrupt at row zero
+           lda #0    ; trigger first interrupt at row zero
            sta $d012
 
            dec $d019        ; acknowledge IRQ / clear register for next interrupt
