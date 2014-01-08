@@ -39,32 +39,32 @@
 ;    setup and init symbols we use in the code
 ;============================================================
 
-!source "code/config_symbols.asm"
+!source "code/config/config_symbols.asm"
 
 ;============================================================
 ; tables and strings of data 
 ;============================================================
 
-!source "code/data_main_menu_text.asm"
-!source "code/data_colorwash.asm"
+!source "code/data/main_menu/data_main_menu_text.asm"
+!source "code/data/data_colorwash.asm"
 
 ;============================================================
 ; one-time initialization routines
 ;============================================================
 
-!source "code/sub_clear_screen.asm"
-!source "code/sub_main_menu_text.asm"
+!source "code/subs/sub_clear_screen.asm"
+!source "code/subs/main_menu/sub_main_menu_text.asm"
 
 ;============================================================
 ;    subroutines called during custom IRQ
 ;============================================================
 
-!source "code/sub_main_menu_keyboard.asm"
-!source "code/sub_main_menu_color.asm"
-!source "code/sub_music.asm"
+!source "code/subs/main_menu/sub_main_menu_keyboard.asm"
+!source "code/subs/main_menu/sub_main_menu_color.asm"
+!source "code/subs/sub_music.asm"
 
 ;============================================================
 ; load resource files (for this small intro its just the sid)
 ;============================================================
 
-!source "code/config_resources.asm"
+!source "code/config/config_resources.asm"
