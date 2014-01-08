@@ -53,14 +53,14 @@ irq        jsr check_keyboard
            dec $d019        ; acknowledge IRQ / clear register for next interrupt
            jmp $ea81        ; return to kernel interrupt routine
 
-irq2       jsr setup_title_chars
+irq2       jsr setup_title_menu
 
            lda #<irq   ; point IRQ Vector to our custom irq routine
            ldx #>irq
            sta $314    ; store in $314/$315
            stx $315   
 
-           lda #$64    ; trigger first interrupt at row zero
+           lda #$78    ; trigger first interrupt at row zero
            sta $d012
 
            dec $d019        ; acknowledge IRQ / clear register for next interrupt
