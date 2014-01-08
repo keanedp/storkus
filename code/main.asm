@@ -5,7 +5,7 @@
            sei         ; set interrupt disable flag
             
            jsr clear_screen     ; clear the screen
-           jsr write_main_menu  ; write lines of text
+           ;jsr write_main_menu  ; write lines of text
            jsr sid_init     ; init music routine now
 
            ldy #$7f    ; $7f = %01111111
@@ -37,10 +37,31 @@
 ;    custom interrupt routine
 ;============================================================
 
-irq        dec $d019        ; acknowledge IRQ / clear register for next interrupt
-
-           jsr check_keyboard
+irq        jsr check_keyboard
+           jsr write_main_menu
            jsr color_main_screen      ; jump to color cycling routine
            jsr play_music	  ; jump to play music routine
 
+           lda #<irq2   ; point IRQ Vector to our custom irq routine
+           ldx #>irq2
+           sta $314    ; store in $314/$315
+           stx $315   
+
+           lda #$00    ; trigger first interrupt at row zero
+           sta $d012
+
+           dec $d019        ; acknowledge IRQ / clear register for next interrupt
            jmp $ea81        ; return to kernel interrupt routine
+
+irq2       jsr setup_title_chars
+
+           lda #<irq   ; point IRQ Vector to our custom irq routine
+           ldx #>irq
+           sta $314    ; store in $314/$315
+           stx $315   
+
+           lda #$64    ; trigger first interrupt at row zero
+           sta $d012
+
+           dec $d019        ; acknowledge IRQ / clear register for next interrupt
+           jmp $ea81 
