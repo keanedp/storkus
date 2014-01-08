@@ -60,7 +60,7 @@ irq2       jsr setup_title_menu
            sta $314    ; store in $314/$315
            stx $315   
 
-           lda #$78    ; trigger first interrupt at row zero
+           lda #$a0    ; trigger first interrupt at row zero
            sta $d012
 
            dec $d019        ; acknowledge IRQ / clear register for next interrupt
