@@ -60,6 +60,7 @@
 
 !source "code/subs/main_menu/sub_charset.asm"
 !source "code/subs/main_menu/sub_keyboard.asm"
+!source "code/subs/sub_keyboard.asm"
 !source "code/subs/main_menu/sub_color.asm"
 !source "code/subs/sub_music.asm"
 

@@ -45,13 +45,13 @@ loop_menu        lda main_menu,x   ; do top 5 lines...
                  cpx #$50
                  bne loop_menu
 
-select_dificulty lda menu_selected_option
+select_menu_opt  lda menu_selected_option
                  cmp #$00
-                 beq select_easy
-                 bne select_hard
+                 beq select_start_game
+                 bne select_about
                  rts
 
-select_easy      ldx #$0d
+select_start_game ldx #$0d
                  ; reset hard to space
                  lda #$20
                  sta $0658,x
@@ -63,7 +63,7 @@ select_easy      ldx #$0d
                  sta menu_selected_option
                  rts 
 
-select_hard      ldx #$0d
+select_about     ldx #$0d
                  ; reset easy to space
                  lda #$20
                  sta $0630,x

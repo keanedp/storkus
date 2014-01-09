@@ -7,4 +7,4 @@
 !bin "resources/cholo_font.ctm",760,24   ; skip first 24 bytes which is CharPad format information 
 
 *= address_title_chars
-!bin "resources/blade_runner_font.ctm",760,24 
+!bin "resources/blade_runner_font.ctm",504,24 

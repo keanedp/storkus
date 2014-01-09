@@ -15,13 +15,13 @@ check_up	        lda #%11111101  ; select row 8
                         sta pra 
                         lda prb         ; load column information
                         and #%00000010  ; test 'space' key to exit 
-                        beq select_easy
+                        beq select_start_game
 
 check_down              lda #%11111101  ; select row 8
                         sta pra 
                         lda prb         ; load column information
                         and #%00100000  ; test 'space' key to exit 
-                        beq select_hard
+                        beq select_about
 
 check_return            lda #%11011110  ; select row 8
                         sta pra 
