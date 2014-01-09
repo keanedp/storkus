@@ -39,34 +39,34 @@ main_loop
 
 irq        lda current_screen
            cmp #$00
-           beq handle_main_menu_irq
+           beq handle_main_menu_irq_1
            lda current_screen
            cmp #$01
-           beq handle_play_irq
+           beq handle_play_irq_1
            cmp #$02
-           beq handle_help_irq
+           beq handle_help_irq_1
 complete_irq
            dec $d019
            jmp $ea81
 
-handle_play_irq
+handle_play_irq_1
            jsr clear_screen
            jsr play_music
            jmp complete_irq
 
-handle_help_irq
+handle_help_irq_1
            jsr clear_screen
            jsr play_music
            jmp complete_irq
 
-handle_main_menu_irq
+handle_main_menu_irq_1
            jsr check_keyboard
            jsr set_title_char_set
            jsr play_music   ; jump to play music routine
            jsr color_title      ; jump to color cycling routine
 
-           lda #<main_menu_irq_2   ; point IRQ Vector to our custom irq routine
-           ldx #>main_menu_irq_2
+           lda #<handle_main_menu_irq_2   ; point IRQ Vector to our custom irq routine
+           ldx #>handle_main_menu_irq_2
            sta $314    ; store in $314/$315
            stx $315   
 
@@ -75,7 +75,7 @@ handle_main_menu_irq
 
            jmp complete_irq
 
-main_menu_irq_2
+handle_main_menu_irq_2
            jsr set_default_char_set
            jsr color_remainder
 
