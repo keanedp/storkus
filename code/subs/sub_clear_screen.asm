@@ -1,6 +1,6 @@
 clear_screen    ldx #$00     ; set X to zero (black color code)
 		        stx $d021    ; set background color
-		        ldx #$0e
+		        ldx #$04
 		        stx $d020    ; set border color
 		        
 		        ;jsr $e544	; kernal sub is way too slow, throws everything off in interrupt

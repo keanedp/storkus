@@ -92,7 +92,7 @@ handle_main_menu_first_load
 
 handle_main_menu_irq_2
            jsr set_default_char_set
-           jsr color_remainder
+           jsr color_main_screen
 
            lda #<irq   ; point IRQ Vector to our custom irq routine
            ldx #>irq

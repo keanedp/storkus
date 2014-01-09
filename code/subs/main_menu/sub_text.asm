@@ -13,16 +13,25 @@ loop_title       lda main_menu_title,x      ; read characters from line1 table o
 
                  rts
 
-write_main  ldx #$00         ; init X-Register with $00
-loop_text        lda main_menu_line1,x      ; read characters from line1 table of text...
+write_main       ldx #$00         ; init X-Register with $00
+loop_copyright   lda main_menu_line1,x      ; read characters from line1 table of text...
                  sta $0540,x      ; ...and store in screen ram near the center
 
                  inx 
                  cpx #$28         ; finished when all 40 cols of a line are processed
-                 bne loop_text    ; loop if we are not done yet
+                 bne loop_copyright    ; loop if we are not done yet
+
+;                  ldx #$1d
+;                  ldy #$00
+; add_cw_year      lda main_menu_cw_year,y
+;                  sta $0540,x
+;                  inx
+;                  iny
+;                  cpx #$28
+;                  bne add_cw_year
 
                  ldx #$00
-loop_menu    lda main_menu,x   ; do top 5 lines...
+loop_menu        lda main_menu,x   ; do top 5 lines...
                  sta $0630,x
                  inx
                  cpx #$50
