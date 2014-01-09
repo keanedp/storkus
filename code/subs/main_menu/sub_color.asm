@@ -31,8 +31,15 @@ loop_color_copyright     lda #$0e
                          cpx #$28
                          bne loop_color_copyright
 
+color_programmer         ldx #$00
+loop_color_programmer    lda #$0d
+                         sta $d990,x
+                         inx
+                         cpx #$28
+                         bne loop_color_programmer
+
                          ldx #$00
-color_menu_menu          lda #$04
+color_menu_menu          lda #$0e
                          sta $da30,x
                          sta $daf8,x
                          inx

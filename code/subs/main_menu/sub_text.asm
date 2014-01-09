@@ -21,6 +21,14 @@ loop_copyright   lda main_menu_line1,x      ; read characters from line1 table o
                  cpx #$28         ; finished when all 40 cols of a line are processed
                  bne loop_copyright    ; loop if we are not done yet
 
+                 ldx #$00         ; init X-Register with $00
+loop_programmer  lda main_menu_line2,x      ; read characters from line1 table of text...
+                 sta $0590,x      ; ...and store in screen ram near the center
+
+                 inx 
+                 cpx #$28         ; finished when all 40 cols of a line are processed
+                 bne loop_programmer    ; loop if we are not done yet
+
 ;                  ldx #$1d
 ;                  ldy #$00
 ; add_cw_year      lda main_menu_cw_year,y
