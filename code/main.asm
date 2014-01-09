@@ -1,10 +1,14 @@
 ;============================================================
 ;    some initialization and interrupt redirect setup
 ;============================================================
-           sei         ; set interrupt disable flag
+main_loop
+           ;sei         ; set interrupt disable flag
 
-           jsr init_screen
+           lda current_screen
+           cmp #$00
+           beq init_main_screen
 
+continue_main_loop
            jmp *                ; infinite loop
 
 
@@ -12,7 +16,7 @@
 ;    init screens
 ;============================================================
 
-init_screen
+init_main_screen
            sei         ; set interrupt disable flag
 
            jsr clear_screen     ; clear the screen
@@ -42,7 +46,7 @@ init_screen
            sta $d012
 
            cli                  ; clear interrupt disable flag
-           rts
+           jmp continue_main_loop
 
 ;============================================================
 ;    custom interrupt routine
