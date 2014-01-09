@@ -48,18 +48,11 @@ loop_text        lda main_menu_line1,x      ; read characters from line1 table o
 ;                  sta $d016
 
                  ldx #$00
-loop_top_menu    lda main_menu_top,x   ; do top 5 lines...
+loop_menu    lda main_menu,x   ; do top 5 lines...
                  sta $0630,x
                  inx
-                 cpx #$a0
-                 bne loop_top_menu
-
-                 ldx #$00
-loop_btm_menu    lda main_menu_btm,x   ; do bottom 5 lines...
-                 sta $06f8,x
-                 inx
-                 cpx #$a0
-                 bne loop_btm_menu
+                 cpx #$50
+                 bne loop_menu
 
 select_dificulty lda selected_difficulty
                  cmp #$00
@@ -67,25 +60,25 @@ select_dificulty lda selected_difficulty
                  bne select_hard
                  rts
 
-select_easy      ldx #$10
+select_easy      ldx #$0d
                  ; reset hard to space
-                 lda #$00
-                 sta $0720,x
-                 ; select easy with ']' char
-                 lda #$1d
-                 sta $06f8,x
+                 lda #$20
+                 sta $0658,x
+                 ; select easy with '*' char
+                 lda #$2a
+                 sta $0630,x
                  ; save currently selected difficulty
                  lda #$00
                  sta selected_difficulty
                  rts 
 
-select_hard      ldx #$10
+select_hard      ldx #$0d
                  ; reset easy to space
-                 lda #$00
-                 sta $06f8,x
-                 ; select hard with ']' char
-                 lda #$1d
-                 sta $0720,x
+                 lda #$20
+                 sta $0630,x
+                 ; select hard with '*' char
+                 lda #$2a
+                 sta $0658,x
                  ; save currently selected difficulty
                  lda #$01
                  sta selected_difficulty

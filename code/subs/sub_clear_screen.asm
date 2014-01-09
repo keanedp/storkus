@@ -6,7 +6,7 @@ clear_screen    ldx #$00     ; set X to zero (black color code)
 		        ;jsr $e544	; kernal sub is way too slow, throws everything off in interrupt
 
 		        ldx #$00
-		clear:	lda #$20
+clear:	lda #$20
 				sta $0400,x
 		        sta $0500,x
 		        sta $0600,x
