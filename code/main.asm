@@ -42,20 +42,24 @@ irq        lda current_screen
            beq handle_main_menu_irq
            lda current_screen
            cmp #$01
+           beq handle_play_irq
+           cmp #$02
            beq handle_help_irq
+complete_irq
+           dec $d019
+           jmp $ea81
+
+handle_play_irq
+           jsr clear_screen
+           jsr play_music
+           jmp complete_irq
 
 handle_help_irq
            jsr clear_screen
            jsr play_music
-
-           dec $d019
-           jmp $ea81
+           jmp complete_irq
 
 handle_main_menu_irq
-           jmp main_menu_irq_1
-
-main_menu_irq_1
-           dec $d019        ; acknowledge IRQ / clear register for next interrupt
            jsr check_keyboard
            jsr set_title_char_set
            jsr play_music   ; jump to play music routine
@@ -69,10 +73,9 @@ main_menu_irq_1
            lda #80    ; trigger first interrupt at row 80
            sta $d012
 
-           jmp $ea81        ; return to kernel interrupt routine
+           jmp complete_irq
 
 main_menu_irq_2
-           dec $d019        ; acknowledge IRQ / clear register for next interrupt
            jsr set_default_char_set
            jsr color_remainder
 
@@ -84,4 +87,4 @@ main_menu_irq_2
            lda #0    ; trigger first interrupt at row 0
            sta $d012
 
-           jmp $ea81
+           jmp complete_irq

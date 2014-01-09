@@ -1,12 +1,11 @@
 ;============================================================
-; Example Project for C64 Tutorials  
-; Code by actraiser/Dustlayer
-; Music: Ikari Intro by Laxity
+; Storkus, demo app
+; Code by Daniel Keane
 ;
-; Simple Colorwash effect with a SID playing
+; Created with Dustlayer, see http://dustlayer.com for build info
 ;
-; Tutorial: http://dustlayer.com/c64-coding-tutorials/2013/2/17/a-simple-c64-intro
-; Dustlayer WHQ: http://dustlayer.com
+; Thanks to actraiser/Dustlayer, for intitial project template
+;
 ;============================================================
 
 ;============================================================
@@ -18,7 +17,7 @@
 ;============================================================
 
 !cpu 6502
-!to "build/keano.prg",cbm    ; output file
+!to "build/storkus.prg",cbm    ; output file
 
 ;============================================================
 ; BASIC loader with start address $c000

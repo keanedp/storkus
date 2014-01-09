@@ -34,15 +34,16 @@ select_option           lda selected_difficulty
                         cmp #$00
                         beq set_start_game
                         bne set_view_help
+continue_select_option
                         rts
 
 set_start_game          lda #$01 ; set up var for screen @ game
                         sta current_screen
-                        rts
+                        jmp continue_select_option
 
 set_view_help           lda #$02 ; set up var for screen @ help
                         sta current_screen
-                        rts
+                        jmp continue_select_option
 
 ; exit_to_basic           lda #$00
 ;                         sta $d015        ; turn off all sprites
