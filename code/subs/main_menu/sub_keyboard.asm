@@ -30,7 +30,7 @@ check_return            lda #%11011110  ; select row 8
                         beq select_option
                         rts
 
-select_option           lda selected_difficulty
+select_option           lda menu_selected_option
                         cmp #$00
                         beq set_start_game
                         bne set_view_help

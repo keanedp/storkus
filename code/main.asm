@@ -4,9 +4,7 @@
 main_loop
            sei         ; set interrupt disable flag
 
-           jsr clear_screen     ; clear the screen
-           jsr write_title  ; write lines of text
-           jsr write_main_menu
+           jsr clear_screen
            jsr sid_init     ; init music routine now
 
            ldy #$7f    ; $7f = %01111111
@@ -60,6 +58,12 @@ handle_help_irq_1
            jmp complete_irq
 
 handle_main_menu_irq_1
+           ; we need to check if ran single time, if not then clear screen and don't add second interupt
+           ; this is because clearing screen and setting up everything else takes took much time
+           lda main_screen_first_load
+           cmp #$00
+           beq handle_main_menu_first_load
+
            jsr check_keyboard
            jsr set_title_char_set
            jsr play_music   ; jump to play music routine
@@ -72,6 +76,17 @@ handle_main_menu_irq_1
 
            lda #80    ; trigger first interrupt at row 80
            sta $d012
+
+           jmp complete_irq
+
+handle_main_menu_first_load
+           ; set main menu first load to #$01, don't forget to set back to zero when exiting the game a bout about
+           lda #$01
+           sta main_screen_first_load
+
+           jsr clear_screen
+           jsr write_title
+           jsr write_main
 
            jmp complete_irq
 

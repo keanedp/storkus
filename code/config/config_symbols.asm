@@ -14,9 +14,11 @@ ddrb = $dc03     ; CIA#1 (Data Direction Register B)
 
 
 ; global memory
-selected_difficulty = $0900
+menu_selected_option = $0900
 current_screen = $0901
+main_screen_first_load = $0902
 
 lda #$00
-sta selected_difficulty
+sta menu_selected_option
 sta current_screen
+sta main_screen_first_load
