@@ -1,11 +1,23 @@
 ;============================================================
 ;    some initialization and interrupt redirect setup
 ;============================================================
-
            sei         ; set interrupt disable flag
-            
+
+           jsr init_screen
+
+           jmp *                ; infinite loop
+
+
+;============================================================
+;    init screens
+;============================================================
+
+init_screen
+           sei         ; set interrupt disable flag
+
            jsr clear_screen     ; clear the screen
-           ;jsr write_main_menu  ; write lines of text
+           jsr write_title  ; write lines of text
+           jsr write_main_menu
            jsr sid_init     ; init music routine now
 
            ldy #$7f    ; $7f = %01111111
@@ -30,19 +42,21 @@
            sta $d012
 
            cli                  ; clear interrupt disable flag
-           jmp *                ; infinite loop
-
+           rts
 
 ;============================================================
 ;    custom interrupt routine
 ;============================================================
 
-irq        jsr check_keyboard
-           ; lda #$04 ; color test
+irq        ; lda #$04 ; color test
            ; sta $d020
            ; sta $d021
 
-           jsr write_title
+           lda current_screen
+           cmp #$00
+
+           jsr check_keyboard
+           jsr set_title_char_set
            jsr play_music	  ; jump to play music routine
            jsr color_title      ; jump to color cycling routine
 
@@ -51,7 +65,7 @@ irq        jsr check_keyboard
            sta $314    ; store in $314/$315
            stx $315   
 
-           lda #80    ; trigger first interrupt at row zero
+           lda #80    ; trigger first interrupt at row 80
            sta $d012
 
            dec $d019        ; acknowledge IRQ / clear register for next interrupt
@@ -60,7 +74,7 @@ irq        jsr check_keyboard
 irq2       ;lda #$08  ; color test
            ;sta $d020
            ;sta $d021
-           jsr write_main_menu
+           jsr set_default_char_set
            jsr color_remainder
 
            lda #<irq   ; point IRQ Vector to our custom irq routine
@@ -68,7 +82,7 @@ irq2       ;lda #$08  ; color test
            sta $314    ; store in $314/$315
            stx $315   
 
-           lda #0    ; trigger first interrupt at row zero
+           lda #0    ; trigger first interrupt at row 0
            sta $d012
 
            dec $d019        ; acknowledge IRQ / clear register for next interrupt

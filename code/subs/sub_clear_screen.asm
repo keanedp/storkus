@@ -1,14 +1,12 @@
-;============================================================
-; clear screen
-; a loop instead of kernal routine to save cycles
-;============================================================
-
 clear_screen     ldx #$00     ; set X to zero (black color code)
                  stx $d021    ; set background color
                  ldx #$0e
                  stx $d020    ; set border color
                  jsr $e544
 
+                 rts
+
+; this doesn't seem to work, use kernel sub instead
 ; clear            lda #$20     ; #$20 is the spacebar Screen Code
 ;                  sta $0400,x  ; fill four areas with 256 spacebar characters
 ;                  sta $0500,x 

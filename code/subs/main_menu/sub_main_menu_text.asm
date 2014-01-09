@@ -3,14 +3,14 @@
 ;============================================================
 
 write_title
-setup_title_char lda #$1c      ; set chars location to $3800 for displaying the custom font
-                 sta $d018      ; Bits 1-3 ($400+512bytes * low nibble value) of $d018 sets char location
-                                ; $400 + $200*$0E = $3800
-                 lda $d016      ; turn off multicolor for characters
-                 and #$ef       ; by cleaing Bit#4 of $D016
-                 sta $d016
-                 ldx #$00         ; init X-Register with $00
+setup_title_char ;lda #$1c      ; set chars location to $3800 for displaying the custom font
+                 ; sta $d018      ; Bits 1-3 ($400+512bytes * low nibble value) of $d018 sets char location
+                 ;                ; $400 + $200*$0E = $3800
+                 ; lda $d016      ; turn off multicolor for characters
+                 ; and #$ef       ; by cleaing Bit#4 of $D016
+                 ; sta $d016
 
+                 ldx #$00         ; init X-Register with $00
 loop_title       lda main_menu_title,x      ; read characters from line1 table of text...
                  sta $0450,x      ; ...and put 2 rows below line1
 
@@ -21,12 +21,12 @@ loop_title       lda main_menu_title,x      ; read characters from line1 table o
                  rts
 
 write_main_menu
-setup_std_chars  lda #$1f      ; set chars location to $3800 for displaying the custom font
-                 sta $d018      ; Bits 1-3 ($400+512bytes * low nibble value) of $d018 sets char location
-                                ; $400 + $200*$0E = $3800
-                 lda $d016      ; turn off multicolor for characters
-                 and #$ef       ; by cleaing Bit#4 of $D016
-                 sta $d016
+; setup_std_chars  lda #$1f      ; set chars location to $3800 for displaying the custom font
+;                  sta $d018      ; Bits 1-3 ($400+512bytes * low nibble value) of $d018 sets char location
+;                                 ; $400 + $200*$0E = $3800
+;                  lda $d016      ; turn off multicolor for characters
+;                  and #$ef       ; by cleaing Bit#4 of $D016
+;                  sta $d016
 
   		           ldx #$00         ; init X-Register with $00
 loop_text        lda main_menu_line1,x      ; read characters from line1 table of text...
