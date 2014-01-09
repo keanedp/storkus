@@ -1,23 +1,22 @@
-clear_screen     ldx #$00     ; set X to zero (black color code)
-                 stx $d021    ; set background color
-                 ldx #$0e
-                 stx $d020    ; set border color
-                 jsr $e544
+clear_screen    ldx #$00     ; set X to zero (black color code)
+		        stx $d021    ; set background color
+		        ldx #$0e
+		        stx $d020    ; set border color
+		        
+		        ;jsr $e544	; kernal sub is way too slow, throws everything off in interrupt
 
-                 rts
+		        ldx #$00
+		clear:	lda #$20
+				sta $0400,x
+		        sta $0500,x
+		        sta $0600,x
+		        sta $0700,x
+		        lda #$08     ; set foreground to black in Color Ram 
+			    sta $d800,x  
+			    sta $d900,x
+			    sta $da00,x
+			    sta $dae8,x
+		        inx
+		        bne clear
 
-; this doesn't seem to work, use kernel sub instead
-; clear            lda #$20     ; #$20 is the spacebar Screen Code
-;                  sta $0400,x  ; fill four areas with 256 spacebar characters
-;                  sta $0500,x 
-;                  sta $0600,x 
-;                  sta $06e8,x 
-;                  lda #$00     ; set foreground to black in Color Ram 
-;                  sta $d800,x  
-;                  sta $d900,x
-;                  sta $da00,x
-;                  sta $dae8,x
-;                  inx           ; increment X
-;                  bne clear     ; did X turn to zero yet?
-;                                ; if not, continue with the loop
-;                  rts           ; return from this subroutine
+		        rts

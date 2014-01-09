@@ -45,7 +45,7 @@
 ; tables and strings of data 
 ;============================================================
 
-!source "code/data/main_menu/data_main_menu_text.asm"
+!source "code/data/main_menu/data_text.asm"
 !source "code/data/data_colorwash.asm"
 
 ;============================================================
@@ -53,15 +53,15 @@
 ;============================================================
 
 !source "code/subs/sub_clear_screen.asm"
-!source "code/subs/main_menu/sub_main_menu_text.asm"
+!source "code/subs/main_menu/sub_text.asm"
 
 ;============================================================
 ;    subroutines called during custom IRQ
 ;============================================================
 
-!source "code/subs/main_menu/sub_main_menu_charset.asm"
-!source "code/subs/main_menu/sub_main_menu_keyboard.asm"
-!source "code/subs/main_menu/sub_main_menu_color.asm"
+!source "code/subs/main_menu/sub_charset.asm"
+!source "code/subs/main_menu/sub_keyboard.asm"
+!source "code/subs/main_menu/sub_color.asm"
 !source "code/subs/sub_music.asm"
 
 ;============================================================
