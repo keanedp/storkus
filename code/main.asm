@@ -52,8 +52,14 @@ complete_irq
            jmp $ea81
 
 handle_play_irq_1
-           jsr clear_screen
+           lda game_screen_first_load
+           cmp #$00
+           beq handle_game_first_load
+
            jsr play_music
+           jsr inc_score_tens_digit
+           jsr write_score
+           
            jmp complete_irq
 
 handle_help_irq_1
@@ -91,6 +97,15 @@ handle_main_menu_first_load
            jsr clear_screen
            jsr write_title
            jsr write_main
+
+           jmp complete_irq
+
+handle_game_first_load
+           ; set main menu first load to #$01, don't forget to set back to zero when exiting the game a bout about
+           lda #$01
+           sta game_screen_first_load
+
+           jsr clear_screen
 
            jmp complete_irq
 

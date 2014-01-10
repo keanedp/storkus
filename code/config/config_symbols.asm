@@ -17,8 +17,20 @@ ddrb = $dc03     ; CIA#1 (Data Direction Register B)
 menu_selected_option = $0900
 current_screen = $0901
 main_screen_first_load = $0902
+game_screen_first_load = $0903
+scoreOneDigit = $0904
+scoreTenDigit = $0905
+scoreHundredDigit = $0906
+scoreThousandDigit = $0907
+scoreTenThousandDigit = $0908
 
 lda #$00
 sta menu_selected_option
 sta current_screen
 sta main_screen_first_load
+sta game_screen_first_load
+sta scoreOneDigit
+sta scoreTenDigit
+sta scoreHundredDigit
+sta scoreThousandDigit
+sta scoreTenThousandDigit

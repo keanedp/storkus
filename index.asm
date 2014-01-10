@@ -63,6 +63,8 @@
 !source "code/subs/sub_keyboard.asm"
 !source "code/subs/main_menu/sub_color.asm"
 !source "code/subs/sub_music.asm"
+!source "code/subs/game/sub_text.asm"
+!source "code/subs/game/sub_score.asm"
 
 ;============================================================
 ; load resource files (for this small intro its just the sid)
