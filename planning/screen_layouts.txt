@@ -16,18 +16,53 @@ Main Menu Screen
 
 
 
-HELP SCREEN
+ABOUT SCREEN
 
 ========================================
 
-	
-	CONTROLS:
+	EXPLANATORY TEXT GOES HERE
+	EXPLANATORY TEXT GOES HERE
+	EXPLANATORY TEXT GOES HERE
+	EXPLANATORY TEXT GOES HERE
 
-		W - UP
-		S - DOWN
-		A - LEFT
-		D - RIGHT
-		RUN/STOP - QUIT
+	EXPLANATORY TEXT GOES HERE
+
 
 
 ========================================
+
+
+GAME - NEW LEVEL SCREEN
+
+========================================
+
+
+
+
+
+				LEVEL 1
+				
+
+
+
+
+========================================
+
+
+GAME - IN PLAY SCREEN
+
+Display platforms for the user to run along, ^ = entry points to above platform
+
+========================================
+TIME 100				  	SCORE 000000
+
+----^-------------------^----------^---
+########################################
+----------------^-------------^--------
+########################################		
+---------^------------------^-----------
+########################################
+---^--------------^--------------^------
+########################################
+========================================
+
