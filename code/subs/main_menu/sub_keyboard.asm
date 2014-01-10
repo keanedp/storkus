@@ -37,7 +37,9 @@ select_option           lda menu_selected_option
 continue_select_option
                         rts
 
-set_start_game          lda #$01 ; set up var for screen @ game
+set_start_game          lda #$00
+                        sta game_screen_first_load
+                        lda #$01 ; set up var for screen @ game
                         sta current_screen
                         jmp continue_select_option
 

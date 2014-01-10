@@ -35,18 +35,18 @@ main_loop
 ;    custom interrupt routine
 ;============================================================
 
-irq              jmp check_global_keyboard
+irq        jmp check_global_keyboard
 
 continue_from_global_keyboard
-                 
-                 lda current_screen
-                 cmp #$00
-                 beq handle_main_menu_irq_1
-                 lda current_screen
-                 cmp #$01
-                 beq handle_play_irq_1
-                 cmp #$02
-                 beq handle_help_irq_1
+           
+           lda current_screen
+           cmp #$00
+           beq handle_main_menu_irq_1
+           lda current_screen
+           cmp #$01
+           beq handle_play_irq_1
+           cmp #$02
+           beq handle_help_irq_1
 complete_irq
            dec $d019
            jmp $ea81
@@ -59,7 +59,7 @@ handle_play_irq_1
            jsr play_music
            jsr inc_score_tens_digit
            jsr write_score
-           
+
            jmp complete_irq
 
 handle_help_irq_1
