@@ -43,7 +43,9 @@ set_start_game          lda #$00
                         sta current_screen
                         jmp continue_select_option
 
-set_view_help           lda #$02 ; set up var for screen @ help
+set_view_help           lda #$00
+                        sta about_screen_first_load
+                        lda #$02 ; set up var for screen @ help
                         sta current_screen
                         jmp continue_select_option
 

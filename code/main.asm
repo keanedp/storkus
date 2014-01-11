@@ -4,7 +4,7 @@
 main_loop
            sei         ; set interrupt disable flag
 
-           jsr clear_screen
+           ; jsr clear_screen
            jsr sid_init     ; init music routine now
 
            ldy #$7f    ; $7f = %01111111
@@ -63,8 +63,12 @@ handle_play_irq_1
            jmp complete_irq
 
 handle_help_irq_1
-           jsr clear_screen
+            lda about_screen_first_load
+            cmp #$00
+            beq handle_about_first_load
+
            jsr play_music
+
            jmp complete_irq
 
 handle_main_menu_irq_1
@@ -94,9 +98,15 @@ handle_main_menu_first_load
            lda #$01
            sta main_screen_first_load
 
+           ldx #$00
+           stx $d021
+           ldx #$0a
+           stx $d020
+
            jsr clear_screen
            jsr write_title
            jsr write_main
+           jsr play_music
 
            jmp complete_irq
 
@@ -105,7 +115,28 @@ handle_game_first_load
            lda #$01
            sta game_screen_first_load
 
+           ldx #game_bg_color
+           stx $d021
+           ldx #$0a
+           stx $d020
+
            jsr clear_screen
+           jsr play_music
+
+           jmp complete_irq
+
+handle_about_first_load
+           lda #$01
+           sta about_screen_first_load
+
+           ldx #$00
+           stx $d021
+           ldx #$0a
+           stx $d020
+
+           jsr clear_screen
+
+           jsr play_music
 
            jmp complete_irq
 

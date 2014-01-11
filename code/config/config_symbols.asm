@@ -12,23 +12,26 @@ prb = $dc01     ; CIA#1 (Port Register B)
 ddra = $dc02     ; CIA#1 (Data Direction Register A)
 ddrb = $dc03     ; CIA#1 (Data Direction Register B)
 
+game_bg_color = $0b
 
 ; global memory
 menu_selected_option = $0900
 current_screen = $0901
 main_screen_first_load = $0902
 game_screen_first_load = $0903
-scoreOneDigit = $0904
-scoreTenDigit = $0905
-scoreHundredDigit = $0906
-scoreThousandDigit = $0907
-scoreTenThousandDigit = $0908
+about_screen_first_load = $0904
+scoreOneDigit = $0905
+scoreTenDigit = $0906
+scoreHundredDigit = $0907
+scoreThousandDigit = $0908
+scoreTenThousandDigit = $0909
 
 lda #$00
 sta menu_selected_option
 sta current_screen
 sta main_screen_first_load
 sta game_screen_first_load
+sta about_screen_first_load
 sta scoreOneDigit
 sta scoreTenDigit
 sta scoreHundredDigit
