@@ -59,6 +59,7 @@ handle_play_irq_1
            jsr play_music
            jsr inc_score_tens_digit
            jsr write_score
+           jsr update_game
 
            jmp complete_irq
 

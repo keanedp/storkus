@@ -34,7 +34,7 @@ loop_score 		lda score,x
 
 			    ldx #$00
 color_score
-			    lda #$0e
+			    lda #$01 ; #$0e
 			    sta $d842,x
 			    inx
 			    cpx #$0c

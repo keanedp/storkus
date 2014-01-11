@@ -17,6 +17,10 @@ clrloop:
 		        stx $fb     ; store x (MSB) in zero page location $fb 
 		        cpx #$08    ; if x != 8 
 		        bne clrloop ; goto clrloop 
+
+
+clear_sprites	lda #$00	
+				sta $d015	; just do first one for now
 		        
 		        rts
 
