@@ -7,27 +7,27 @@ loop_score 		lda score,x
 
 				ldx #$30
 
-				lda scoreTenThousandDigit
+				lda score_ten_thousand_digit
 				clc 
                 adc #$30 
 			    sta $0449
 
-				lda scoreThousandDigit
+				lda score_thousand_digit
 				clc 
                 adc #$30 
 			    sta $044a
 
-				lda scoreHundredDigit
+				lda score_hundred_digit
 				clc 
                 adc #$30 
 			    sta $044b
 
-			    lda scoreTenDigit
+			    lda score_ten_digit
 				clc 
                 adc #$30 
 			    sta $044c
 
-			    lda scoreOneDigit
+			    lda score_ten_digit
 				clc 
                 adc #$30 
 			    sta $044d

@@ -1,6 +1,4 @@
 setup_game_scene
-
-			; init memory
 			ldx #07; sprite_frames_character
 			stx character_current_frame
 			 
@@ -24,9 +22,6 @@ setup_game_scene
 			lda #sprite_character_color
 			sta $d027
 			 
-			; lda #$01    ; set X-Coord high bit (9th Bit)
-			; sta $d010
-			 
 			lda #$a8    ; set Sprite#0 positions with X/Y coords to
 			sta $d000   ; bottom border of screen on the outer right
 			lda #$e5   ; $d000 corresponds to X-Coord
@@ -43,7 +38,6 @@ update_charecter
             beq reset_jump_positon
 
             cpx #$15
-            ; beq jump_down
             bcs jump_down
             
             inx
@@ -72,10 +66,6 @@ start_jump	ldx character_jump_index
 			bne complete_start_jump
 			inx
 			stx character_jump_index
-			; lda $d001
-			; sec
-			; sbc #$05
-			; sta $d001
 complete_start_jump
 			jmp finalize_jump
 

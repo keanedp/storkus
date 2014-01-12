@@ -10,11 +10,11 @@ main_loop
           sta main_screen_first_load
           sta game_screen_first_load
           sta about_screen_first_load
-          sta scoreOneDigit
-          sta scoreTenDigit
-          sta scoreHundredDigit
-          sta scoreThousandDigit
-          sta scoreTenThousandDigit
+          sta score_one_digit
+          sta score_ten_digit
+          sta score_hundred_digit
+          sta score_thousand_digit
+          sta score_ten_thousand_digit
           sta character_jump_index
 
            lda #$01
