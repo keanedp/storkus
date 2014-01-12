@@ -4,6 +4,19 @@
 main_loop
            sei         ; set interrupt disable flag
 
+          lda #$00
+          sta menu_selected_option
+          sta current_screen
+          sta main_screen_first_load
+          sta game_screen_first_load
+          sta about_screen_first_load
+          sta scoreOneDigit
+          sta scoreTenDigit
+          sta scoreHundredDigit
+          sta scoreThousandDigit
+          sta scoreTenThousandDigit
+          sta character_jump_index
+
            lda #$01
            sta is_character_moving_right
 
@@ -61,6 +74,7 @@ handle_play_irq_1
 
            jsr play_music
            ;jsr inc_score_tens_digit
+           jsr update_charecter
            jsr check_in_game_keyboard
            jsr write_score
 

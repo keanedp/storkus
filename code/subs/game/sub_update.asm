@@ -31,17 +31,51 @@ setup_game_scene
 			sta $d000   ; bottom border of screen on the outer right
 			lda #$e5   ; $d000 corresponds to X-Coord
 			sta $d001   ; $d001 corresponds to Y-Coord
-
 			rts
+
+; check for jump, if currently jumping then increment y
+update_charecter
+            ldx character_jump_index
+            cpx #$00
+            beq complete_jump
+
+            cpx #$15
+            beq reset_jump_positon
+
+            cpx #$0b
+            ; beq jump_down
+            bcs jump_down
+            
+            inx
+            stx character_jump_index
+            dec $d001
+            jmp complete_jump
+jump_down
+			inx
+			stx character_jump_index
+			inc $d001
+complete_jump
+			rts
+
+reset_jump_positon
+			lda #$00
+			sta character_jump_index
+			jmp complete_jump
 
 ;======================
 ;	JUMP
 ;======================
-start_jump	lda $d001
-			sec
-			sbc #$05
-			sta $d001
-			jmp complete_jump
+start_jump	ldx character_jump_index
+			cpx #$00
+			bne complete_start_jump
+			inx
+			stx character_jump_index
+			; lda $d001
+			; sec
+			; sbc #$05
+			; sta $d001
+complete_start_jump
+			jmp finalize_jump
 
 ;======================
 ;	MOVE LEFT

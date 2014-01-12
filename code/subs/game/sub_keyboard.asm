@@ -22,7 +22,7 @@ check_space_jump        lda #%01111111
                         lda prb         ; load column information
                         and #%00010000  ; test space key
                         beq jump_to_perform_jump
-complete_jump
+finalize_jump
 
                         jmp continue_from_in_game_keyboard
 
