@@ -4,6 +4,9 @@
 main_loop
            sei         ; set interrupt disable flag
 
+           lda #$01
+           sta is_character_moving_right
+
            ; jsr clear_screen
            jsr sid_init     ; init music routine now
 

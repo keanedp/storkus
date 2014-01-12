@@ -23,4 +23,4 @@ jump_to_move_right		jmp jump_to_move_right
 finalize_move_right		rts
 
 continue_from_in_game_keyboard
-						rts
+			rts

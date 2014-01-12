@@ -16,7 +16,8 @@ screen_ram = $0400
 game_bg_color = $0b
 delay_animation_pointer   = $9e
 sprite_frames_character = 10
-sprite_pointer_character = address_sprites / $40
+sprite_pointer_character_right = address_sprites / $40
+sprite_pointer_character_left = (address_sprites / $40) + 8
 sprite_multicolor_1       = $03
 sprite_multicolor_2       = $01
 sprite_character_color         = $00
@@ -33,6 +34,7 @@ scoreHundredDigit = $0907
 scoreThousandDigit = $0908
 scoreTenThousandDigit = $0909
 character_current_frame = $090a
+is_character_moving_right = $090b
 
 lda #$00
 sta menu_selected_option
