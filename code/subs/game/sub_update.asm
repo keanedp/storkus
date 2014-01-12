@@ -35,6 +35,15 @@ setup_game_scene
 			rts
 
 ;======================
+;	JUMP
+;======================
+start_jump	lda $d001
+			sec
+			sbc #$05
+			sta $d001
+			jmp complete_jump
+
+;======================
 ;	MOVE LEFT
 ;======================
 move_left   lda $d000
