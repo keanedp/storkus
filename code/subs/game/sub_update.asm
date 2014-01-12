@@ -43,8 +43,8 @@ move_left   lda $d000
 			beq handle_x_high_bit_left
 contine_handle_x_high_bit_left
 			lda $d000
-			clc
-			sbc #$01
+			sec
+			sbc #$02
 			sta $d000
 			bcc set_x_low_bit
 complete_move_left
@@ -58,7 +58,7 @@ handle_x_high_bit_left
 			jmp complete_move_left
 
 set_x_low_bit
-			clc
+			sec
 			lda #$00    ; set X-Coord high bit (9th Bit)
 			sta $d010
 			jmp complete_move_left
@@ -76,18 +76,12 @@ move_right
 inc_right_x
 			lda $d000
 			clc
-			adc #$01
+			adc #$02
 			sta $d000
 			bcs set_x_high_bit
 complete_move_right 
 			jsr animate_right
 			jmp finalize_move_right
-
-handle_x_high_bit_right
-			lda $d010
-			cmp #$00
-			beq inc_right_x
-			jmp complete_move_right
 
 set_x_high_bit
 			clc
