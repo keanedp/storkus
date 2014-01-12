@@ -1,7 +1,7 @@
 setup_game_scene
 
 			; init memory
-			ldx #$04; sprite_frames_character
+			ldx #07; sprite_frames_character
 			stx character_current_frame
 			 
 			lda #sprite_pointer_character
@@ -104,7 +104,7 @@ animate_right
 			bne dec_character_frame
 
 reset_character_frames
-			ldx #$04 ;sprite_frames_character
+			ldx #07 ;sprite_frames_character
 			stx character_current_frame
 			lda #sprite_pointer_character
 			sta screen_ram + $3f8 
