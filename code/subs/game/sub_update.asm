@@ -39,20 +39,22 @@ update_charecter
             cpx #$00
             beq complete_jump
 
-            cpx #$15
+            cpx #$29
             beq reset_jump_positon
 
-            cpx #$0b
+            cpx #$15
             ; beq jump_down
             bcs jump_down
             
             inx
             stx character_jump_index
             dec $d001
+            dec $d001
             jmp complete_jump
 jump_down
 			inx
 			stx character_jump_index
+			inc $d001
 			inc $d001
 complete_jump
 			rts
