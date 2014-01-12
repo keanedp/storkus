@@ -14,9 +14,8 @@ ddrb = $dc03     ; CIA#1 (Data Direction Register B)
 screen_ram = $0400
 
 game_bg_color = $0b
-character_current_frame = $fb
 delay_animation_pointer   = $9e
-sprite_frames_character = $04
+sprite_frames_character = 10
 sprite_pointer_character = address_sprites / $40
 sprite_multicolor_1       = $03
 sprite_multicolor_2       = $01
@@ -33,6 +32,7 @@ scoreTenDigit = $0906
 scoreHundredDigit = $0907
 scoreThousandDigit = $0908
 scoreTenThousandDigit = $0909
+character_current_frame = $090a
 
 lda #$00
 sta menu_selected_option

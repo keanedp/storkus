@@ -1,7 +1,7 @@
 setup_game_scene
 
 			; init memory
-			ldx sprite_frames_character
+			ldx #$04; sprite_frames_character
 			stx character_current_frame
 			 
 			lda #sprite_pointer_character
@@ -48,7 +48,7 @@ contine_handle_x_high_bit_left
 			sta $d000
 			bcc set_x_low_bit
 complete_move_left
-			rts
+			jmp finalize_move_left
 
 handle_x_high_bit_left
 			lda $d010
@@ -78,8 +78,9 @@ inc_right_x
 			adc #$01
 			sta $d000
 			bcs set_x_high_bit
-complete_move_right
-			rts
+complete_move_right 
+			jsr animate_right
+			jmp finalize_move_right
 
 handle_x_high_bit_right
 			lda $d010
@@ -93,17 +94,22 @@ set_x_high_bit
 			sta $d010
 			jmp complete_move_right
 
-; move_right  inc screen_ram + $3f8          ; increase current pointer position
-; 	        ldx character_current_frame
-; 	        dex    ; decrease current Frame
-; 	        cpx #00
-; 	        beq reset_character_frames
-; 	        rts
 
-; reset_character_frames
-; 			lda sprite_frames_character
-; 			sta character_current_frame
-; 			lda sprite_pointer_character
-; 			sta screen_ram + $3f8
-; 			rts
+;======================
+;	ANIMATE
+;======================
+animate_right 
+			lda character_current_frame
+			cmp #$00
+			bne dec_character_frame
 
+reset_character_frames
+			ldx #$04 ;sprite_frames_character
+			stx character_current_frame
+			lda #sprite_pointer_character
+			sta screen_ram + $3f8 
+
+dec_character_frame
+			inc screen_ram + $3f8          ; increase current pointer position
+			dec character_current_frame
+	        rts
