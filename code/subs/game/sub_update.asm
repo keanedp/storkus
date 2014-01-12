@@ -1,7 +1,7 @@
-update_game
+setup_game_scene
 
 			; init memory
-			ldx #sprite_frames_character
+			ldx sprite_frames_character
 			stx character_current_frame
 			 
 			lda #sprite_pointer_character
@@ -33,3 +33,77 @@ update_game
 			sta $d001   ; $d001 corresponds to Y-Coord
 
 			rts
+
+;======================
+;	MOVE LEFT
+;======================
+move_left   lda $d000
+			cmp #$18
+			bcc handle_x_high_bit_left
+			beq handle_x_high_bit_left
+contine_handle_x_high_bit_left
+			lda $d000
+			clc
+			sbc #$01
+			sta $d000
+			bcc set_x_low_bit
+complete_move_left
+			rts
+
+handle_x_high_bit_left
+			lda $d010
+			cmp #$01
+			beq contine_handle_x_high_bit_left
+			jmp complete_move_left
+
+set_x_low_bit
+			clc
+			lda #$00    ; set X-Coord high bit (9th Bit)
+			sta $d010
+			jmp complete_move_left
+
+;======================
+;	MOVE RIGHT
+;======================
+move_right  
+			lda $d000
+			cmp #$3f
+			bcc inc_right_x
+			lda $d010
+			cmp #$01
+			beq complete_move_right
+inc_right_x
+			lda $d000
+			clc
+			adc #$01
+			sta $d000
+			bcs set_x_high_bit
+complete_move_right
+			rts
+
+handle_x_high_bit_right
+			lda $d010
+			cmp #$00
+			beq inc_right_x
+			jmp complete_move_right
+
+set_x_high_bit
+			clc
+			lda #$01    ; set X-Coord high bit (9th Bit)
+			sta $d010
+			jmp complete_move_right
+
+; move_right  inc screen_ram + $3f8          ; increase current pointer position
+; 	        ldx character_current_frame
+; 	        dex    ; decrease current Frame
+; 	        cpx #00
+; 	        beq reset_character_frames
+; 	        rts
+
+; reset_character_frames
+; 			lda sprite_frames_character
+; 			sta character_current_frame
+; 			lda sprite_pointer_character
+; 			sta screen_ram + $3f8
+; 			rts
+

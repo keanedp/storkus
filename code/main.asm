@@ -57,9 +57,9 @@ handle_play_irq_1
            beq handle_game_first_load
 
            jsr play_music
-           jsr inc_score_tens_digit
+           ;jsr inc_score_tens_digit
+           jsr check_in_game_keyboard
            jsr write_score
-           jsr update_game
 
            jmp complete_irq
 
@@ -123,6 +123,7 @@ handle_game_first_load
 
            jsr clear_screen
            jsr play_music
+           jsr setup_game_scene
 
            jmp complete_irq
 
@@ -136,7 +137,6 @@ handle_about_first_load
            stx $d020
 
            jsr clear_screen
-
            jsr play_music
 
            jmp complete_irq
