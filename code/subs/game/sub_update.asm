@@ -40,14 +40,12 @@ update_charecter
             cpx #$15
             bcs jump_down
             
-            inx
-            stx character_jump_index
+            inc character_jump_index
             dec $d001
             dec $d001
             jmp complete_jump
 jump_down
-			inx
-			stx character_jump_index
+			inc character_jump_index
 			inc $d001
 			inc $d001
 complete_jump
@@ -64,8 +62,7 @@ reset_jump_positon
 start_jump	ldx character_jump_index
 			cpx #$00
 			bne complete_start_jump
-			inx
-			stx character_jump_index
+			inc character_jump_index
 complete_start_jump
 			jmp finalize_jump
 
