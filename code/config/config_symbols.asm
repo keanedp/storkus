@@ -2,8 +2,16 @@
 
 address_music = $1000 ; loading address for sid tune
 address_sprites = $2000	  ;loading address for sprite - todo
-address_standard_chars = $3800 	; loading address for standard character map
+address_game_tile = $2800	  ;loading address for sprite - todo
 address_title_chars = $3000 ; load address for title character map
+address_standard_chars = $3800 	; loading address for standard character map
+
+; tiles
+address_tiles = $a000
+
+; tile maps
+address_level1_map = $a080
+address_level1_map_length = 60
 
 sid_init = $1000      ; init routine for music
 sid_play = $1021      ; play music routine

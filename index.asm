@@ -64,6 +64,7 @@
 !source "code/subs/main_menu/sub_color.asm"
 !source "code/subs/sub_music.asm"
 !source "code/subs/game/sub_text.asm"
+!source "code/subs/game/sub_backgrounds.asm"
 !source "code/subs/game/sub_score.asm"
 !source "code/subs/game/sub_keyboard.asm"
 !source "code/subs/game/sub_update.asm"

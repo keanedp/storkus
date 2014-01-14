@@ -4,6 +4,10 @@
 main_loop
            sei         ; set interrupt disable flag
 
+          ; disable basic rom, opens up ram @ $a000 - c000
+          lda #$36
+          sta $01 
+
           lda #$00
           sta menu_selected_option
           sta current_screen
@@ -68,6 +72,8 @@ complete_irq
            jmp $ea81
 
 handle_play_irq_1
+           jsr set_default_char_set
+
            lda game_screen_first_load
            cmp #$00
            beq handle_game_first_load
@@ -77,6 +83,44 @@ handle_play_irq_1
            jsr update_charecter
            jsr check_in_game_keyboard
            jsr write_score
+
+           lda #<handle_play_irq_2   ; point IRQ Vector to our custom irq routine
+           ldx #>handle_play_irq_2
+           sta $314    ; store in $314/$315
+           stx $315 
+
+           lda #80    ; trigger first interrupt at row 80
+           sta $d012
+
+           jmp complete_irq
+
+handle_game_first_load
+           ; set main menu first load to #$01, don't forget to set back to zero when exiting the game a bout about
+           lda #$01
+           sta game_screen_first_load
+
+           ldx #game_bg_color
+           stx $d021
+           ldx #$0a
+           stx $d020
+
+           jsr clear_screen
+           jsr play_music
+           jsr setup_game_scene
+           jsr draw_level1_bg
+
+           jmp complete_irq
+
+handle_play_irq_2
+           jsr set_level1_bg_char_set
+
+           lda #<irq   ; point IRQ Vector to our custom irq routine
+           ldx #>irq
+           sta $314    ; store in $314/$315
+           stx $315   
+
+           lda #0    ; trigger first interrupt at row 0
+           sta $d012
 
            jmp complete_irq
 
@@ -125,22 +169,6 @@ handle_main_menu_first_load
            jsr write_title
            jsr write_main
            jsr play_music
-
-           jmp complete_irq
-
-handle_game_first_load
-           ; set main menu first load to #$01, don't forget to set back to zero when exiting the game a bout about
-           lda #$01
-           sta game_screen_first_load
-
-           ldx #game_bg_color
-           stx $d021
-           ldx #$0a
-           stx $d020
-
-           jsr clear_screen
-           jsr play_music
-           jsr setup_game_scene
 
            jmp complete_irq
 

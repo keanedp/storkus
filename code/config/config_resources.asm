@@ -6,8 +6,17 @@
 * = address_sprites                  
 !bin "resources/character.spr",1024,3 
 
+*= address_game_tile
+!bin "resources/game_map.ctm",760,24
+
 * = address_standard_chars                     
 !bin "resources/cholo_font.ctm",760,24   ; skip first 24 bytes which is CharPad format information 
 
 *= address_title_chars
 !bin "resources/blade_runner_font.ctm",504,24 
+
+*= address_tiles
+!bin "resources/game_tiles.raw",128,
+
+*= address_level1_map
+!bin "resources/level1_map.raw",50,
