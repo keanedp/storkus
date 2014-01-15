@@ -15,8 +15,5 @@
 *= address_title_chars
 !bin "resources/blade_runner_font.ctm",504,24 
 
-*= address_tiles
-!bin "resources/game_tiles.raw",128,
-
 *= address_level1_map
-!bin "resources/level1_map.raw",50,
+!bin "resources/level1_map.raw",840,

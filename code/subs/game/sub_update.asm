@@ -24,7 +24,7 @@ setup_game_scene
 			 
 			lda #$a8    ; set Sprite#0 positions with X/Y coords to
 			sta $d000   ; bottom border of screen on the outer right
-			lda #$e5   ; $d000 corresponds to X-Coord
+			lda #$d7   ; $d000 corresponds to X-Coord
 			sta $d001   ; $d001 corresponds to Y-Coord
 			rts
 

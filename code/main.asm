@@ -89,7 +89,7 @@ handle_play_irq_1
            sta $314    ; store in $314/$315
            stx $315 
 
-           lda #80    ; trigger first interrupt at row 80
+           lda #82    ; trigger first interrupt at row 80
            sta $d012
 
            jmp complete_irq
