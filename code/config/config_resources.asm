@@ -16,4 +16,4 @@
 !bin "resources/blade_runner_font.ctm",504,24 
 
 *= address_level1_map
-!bin "resources/level1_map.raw",840,
+!bin "resources/level1_map.raw",880,

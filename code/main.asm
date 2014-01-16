@@ -61,77 +61,19 @@ continue_from_global_keyboard
            
            lda current_screen
            cmp #$00
-           beq handle_main_menu_irq_1
+           beq show_main
            lda current_screen
            cmp #$01
-           beq handle_play_irq_1
+           beq show_play
            cmp #$02
-           beq handle_help_irq_1
+           beq show_help
 complete_irq
            dec $d019
            jmp $ea81
 
-handle_play_irq_1
-           jsr set_default_char_set
-
-           lda game_screen_first_load
-           cmp #$00
-           beq handle_game_first_load
-
-           jsr play_music
-           ;jsr inc_score_tens_digit
-           jsr update_charecter
-           jsr check_in_game_keyboard
-           jsr write_score
-
-           lda #<handle_play_irq_2   ; point IRQ Vector to our custom irq routine
-           ldx #>handle_play_irq_2
-           sta $314    ; store in $314/$315
-           stx $315 
-
-           lda #82    ; trigger first interrupt at row 80
-           sta $d012
-
-           jmp complete_irq
-
-handle_game_first_load
-           ; set main menu first load to #$01, don't forget to set back to zero when exiting the game a bout about
-           lda #$01
-           sta game_screen_first_load
-
-           ldx #game_bg_color
-           stx $d021
-           ldx #$0a
-           stx $d020
-
-           jsr clear_screen
-           jsr play_music
-           jsr setup_game_scene
-           jsr draw_level1_bg
-
-           jmp complete_irq
-
-handle_play_irq_2
-           jsr set_level1_bg_char_set
-
-           lda #<irq   ; point IRQ Vector to our custom irq routine
-           ldx #>irq
-           sta $314    ; store in $314/$315
-           stx $315   
-
-           lda #0    ; trigger first interrupt at row 0
-           sta $d012
-
-           jmp complete_irq
-
-handle_help_irq_1
-            lda about_screen_first_load
-            cmp #$00
-            beq handle_about_first_load
-
-           jsr play_music
-
-           jmp complete_irq
+show_play  jmp handle_play_irq_1
+show_help  jmp handle_help_irq_1
+show_main  jmp handle_main_menu_irq_1
 
 handle_main_menu_irq_1
            ; we need to check if ran single time, if not then clear screen and don't add second interupt
@@ -155,7 +97,24 @@ handle_main_menu_irq_1
 
            jmp complete_irq
 
+handle_game_first_load
+           lda #$01
+           sta game_screen_first_load
+
+           ldx #game_bg_color
+           stx $d021
+           ldx #$0a
+           stx $d020
+
+           jsr clear_screen
+           jsr play_music
+           jsr setup_game_scene
+           jsr draw_level1_bg
+
+           jmp complete_irq
+
 handle_main_menu_first_load
+           jsr set_title_char_set
            ; set main menu first load to #$01, don't forget to set back to zero when exiting the game a bout about
            lda #$01
            sta main_screen_first_load
@@ -166,8 +125,41 @@ handle_main_menu_first_load
            stx $d020
 
            jsr clear_screen
+
            jsr write_title
            jsr write_main
+           jsr play_music
+
+           jmp complete_irq
+
+handle_play_irq_1
+           jsr set_default_char_set
+
+           lda game_screen_first_load
+           cmp #$01
+           bne handle_game_first_load
+
+           jsr play_music
+           ;jsr inc_score_tens_digit
+           jsr update_charecter
+           jsr check_in_game_keyboard
+           jsr write_score
+
+           lda #<handle_play_irq_2   ; point IRQ Vector to our custom irq routine
+           ldx #>handle_play_irq_2
+           sta $314    ; store in $314/$315
+           stx $315 
+
+           lda #74    ; trigger first interrupt at row 80
+           sta $d012
+
+           jmp complete_irq
+
+handle_help_irq_1
+           lda about_screen_first_load
+           cmp #$00
+           beq handle_about_first_load
+
            jsr play_music
 
            jmp complete_irq
@@ -186,6 +178,19 @@ handle_about_first_load
 
            jmp complete_irq
 
+handle_play_irq_2
+           jsr set_level1_bg_char_set
+
+           lda #<irq   ; point IRQ Vector to our custom irq routine
+           ldx #>irq
+           sta $314    ; store in $314/$315
+           stx $315   
+
+           lda #0    ; trigger first interrupt at row 0
+           sta $d012
+
+           jmp complete_irq
+
 handle_main_menu_irq_2
            jsr set_default_char_set
            jsr color_main_screen
@@ -199,3 +204,18 @@ handle_main_menu_irq_2
            sta $d012
 
            jmp complete_irq
+
+; handle_game_first_load2
+;            jsr draw_level1_bg
+
+;            lda #<irq   ; point IRQ Vector to our custom irq routine
+;            ldx #>irq
+;            sta $314    ; store in $314/$315
+;            stx $315   
+
+;            lda #0    ; trigger first interrupt at row 0
+;            sta $d012
+
+;            jmp complete_irq
+
+;            jmp complete_irq

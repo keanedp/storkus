@@ -8,7 +8,7 @@ address_standard_chars = $3800 	; loading address for standard character map
 
 
 ; maps
-address_level1_map = $a000
+address_level1_map = $4000
 address_level1_map_length = 800
 
 sid_init = $1000      ; init routine for music
