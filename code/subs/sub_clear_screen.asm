@@ -34,4 +34,4 @@ color_screen_loop:
 			    dey
 			    bne color_screen_loop
     			
-    				rts
+    			rts

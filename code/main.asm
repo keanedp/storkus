@@ -101,10 +101,11 @@ handle_game_first_load
            lda #$01
            sta game_screen_first_load
 
-           ldx #game_bg_color
-           stx $d021
            lda #$0e
            sta $d020
+
+           lda #game_bg_color
+           sta $d021
            jsr color_screen ; accumulator used for color
 
            jsr clear_screen
