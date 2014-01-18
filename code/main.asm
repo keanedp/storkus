@@ -103,13 +103,22 @@ handle_game_first_load
 
            ldx #game_bg_color
            stx $d021
-           ldx #$0a
-           stx $d020
+           lda #$0e
+           sta $d020
+           jsr color_screen ; accumulator used for color
 
            jsr clear_screen
            jsr play_music
            jsr setup_game_scene
-           jsr draw_level1_bg
+           ; jsr draw_level1_bg
+
+           lda #<handle_plat_setup_irq_2   ; point IRQ Vector to our custom irq routine
+           ldx #>handle_plat_setup_irq_2
+           sta $314    ; store in $314/$315
+           stx $315 
+
+           lda #74    ; trigger first interrupt at row 80
+           sta $d012
 
            jmp complete_irq
 
@@ -121,7 +130,7 @@ handle_main_menu_first_load
 
            ldx #$00
            stx $d021
-           ldx #$0a
+           ldx #$0e
            stx $d020
 
            jsr clear_screen
@@ -170,11 +179,25 @@ handle_about_first_load
 
            ldx #$00
            stx $d021
-           ldx #$0a
+           ldx #$0e
            stx $d020
 
            jsr clear_screen
            jsr play_music
+
+           jmp complete_irq
+
+handle_plat_setup_irq_2
+           jsr draw_level1_bg
+           jsr set_level1_bg_char_set
+
+           lda #<irq   ; point IRQ Vector to our custom irq routine
+           ldx #>irq
+           sta $314    ; store in $314/$315
+           stx $315   
+
+           lda #0    ; trigger first interrupt at row 0
+           sta $d012
 
            jmp complete_irq
 

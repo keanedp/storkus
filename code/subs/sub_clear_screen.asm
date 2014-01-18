@@ -25,3 +25,13 @@ clear_sprites	lda #$00
 
 ; 		        ;jsr $e544	; kernal sub is way too slow, throws everything off in interrupt
 
+color_screen 	ldy #$00
+color_screen_loop: 
+				sta $d800,y
+			    sta $d900,y
+			    sta $da00,y
+			    sta $db00,y
+			    dey
+			    bne color_screen_loop
+    			
+    				rts
