@@ -100,7 +100,8 @@ set_x_low_bit
 ;======================
 ;	MOVE RIGHT
 ;======================
-move_right  
+move_right  jmp test_right_collision
+can_move_right
 			lda $d000
 			cmp #$3f
 			bcc inc_right_x
@@ -150,17 +151,7 @@ dec_character_frame_right
 			dec character_current_frame
 	        rts
 
-; ======================
-;	TEST LEFT COLLISION
-; ======================
-test_left_collision
-			; load x pos and divide by 8 - todo check for high bit on sprite 1, this is dumb right now...
-			; lda $d000
-			; lsr
-			; lsr
-			; lsr
-			; sta $fb
-
+load_y_row_into_fa_zero_page
 			; y value, use this to get memory address to start from....
 			lda $d001
 			sec
@@ -175,28 +166,42 @@ test_left_collision
 			lda screen_row_tbl_high,y
 			sta $fb
 
-			ldy #$00	; todo remove this and use x add y offset
+			rts
+
+; ======================
+;	TEST LEFT COLLISION
+; ======================
+test_left_collision
+			jsr load_y_row_into_fa_zero_page
 
 			; figure out x pos and add to y
 			lda $d000
 			sec
-			sbc #$16	; x offset for visible screen (18, but we will use 16 as check - 2 positions to left...)
+			sbc #$18	; x offset for visible screen (18, but we will use 16 as check - 2 positions to left...)
 			lsr
 			lsr
 			lsr
+
+			cmp #$00
+			beq test_carry_left
+test_carry_left
+			ldx $d010	; is x bit set high?
+			cpx #$01
+			bne continue_test_left
+			;adc #$1f ; add 31 characters onto a position
+continue_test_left
 			tay
 
 			; lda #$03		; test post by displaying different character
 			; sta ($fa),y
-			
-			; if it can't continue then jmp to finalize
-magic
+
+			; test top left pos - 2 pixels
 			lda ($fa),y
 			cmp #$1f	; if not space then stop movement ----- I THINK THIS IS WRONG, SHOULDN'T IT BE USING #$20 IN THE MAP ????????????
 			bne cancel_left_movement
 			; ; else
 
-			; ; check bottom left...
+			; test bottom left pos - 2 pixels
 			tya
 			clc
 			adc #80
@@ -204,8 +209,10 @@ magic
 			inc $fb	; adding 80 to get bottom left corner of sprite, if carry set then inc 
 test_bottom_left
 			tay
+
 			; lda #$03
 			; sta ($fa),y
+
 			lda ($fa),y
 			cmp #$1f	; if not space then stop movement ----- I THINK THIS IS WRONG, SHOULDN'T IT BE USING #$20 IN THE MAP ????????????
 			bne cancel_left_movement
@@ -214,6 +221,63 @@ test_bottom_left
 
 cancel_left_movement
 			jmp finalize_move_left
+
+; ======================
+;	TEST RIGHT COLLISION
+; ======================
+test_right_collision
+			jsr load_y_row_into_fa_zero_page
+
+			; figure out x pos and add to y
+			lda $d000
+			; sec
+			; sbc #$00	; x offset for visible screen (18, but we will use 1a as check + 2 positions to left...)
+			lsr
+			lsr
+			lsr
+
+			cmp #$00
+			beq test_carry_right
+test_carry_right
+			ldx $d010	; is x bit set high?
+			cpx #$01
+			bne continue_test_right
+			adc #$1f ; add 31 characters onto a position
+
+continue_test_right
+			; adc #2
+
+			tay
+
+			; lda #$03		; test post by displaying different character
+			; sta ($fa),y
+
+			; test top left pos - 2 pixels
+			lda ($fa),y
+			cmp #$1f	; if not space then stop movement ----- I THINK THIS IS WRONG, SHOULDN'T IT BE USING #$20 IN THE MAP ????????????
+			bne cancel_right_movement
+			; ; else
+
+			; test bottom left pos - 2 pixels
+			tya
+			clc
+			adc #80
+			bcc test_bottom_right
+			inc $fb	; adding 80 to get bottom left corner of sprite, if carry set then inc 
+test_bottom_right
+			tay
+
+			; lda #$03
+			; sta ($fa),y
+
+			lda ($fa),y
+			cmp #$1f	; if not space then stop movement ----- I THINK THIS IS WRONG, SHOULDN'T IT BE USING #$20 IN THE MAP ????????????
+			bne cancel_right_movement
+
+			jmp can_move_right
+
+cancel_right_movement
+			jmp finalize_move_right
 
 ;======================
 ;	ANIMATE
