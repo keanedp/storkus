@@ -40,11 +40,16 @@ update_charecter
             cpx #$15
             bcs jump_down
             
+            ; test jump up
+
             inc character_jump_index
             dec $d001
             dec $d001
             jmp complete_jump
-jump_down
+
+jump_down	jmp test_down_collision
+can_jump_down
+
 			inc character_jump_index
 			inc $d001
 			inc $d001
@@ -59,7 +64,8 @@ reset_jump_positon
 ;======================
 ;	JUMP
 ;======================
-start_jump	ldx character_jump_index
+start_jump	; test down if that's the direction we are going, else test up...
+			ldx character_jump_index
 			cpx #$00
 			bne complete_start_jump
 			inc character_jump_index
@@ -304,3 +310,66 @@ dec_character_frame_left
 			inc screen_ram + $3f8          ; increase current pointer position
 			dec character_current_frame
 	        rts
+
+; ======================
+;	TEST DOWN COLLISION
+; ======================
+test_down_collision
+			jsr load_y_row_into_fa_zero_page
+
+			; figure out x pos and add to y
+			lda $d000
+			sec
+			sbc #$18	; x offset for visible screen (18, but we will use 16 as check - 2 positions to left...)
+			lsr
+			lsr
+			lsr
+
+			cmp #$00
+			beq test_carry_down_x
+test_carry_down_x
+			ldx $d010	; is x bit set high?
+			cpx #$01
+			bne continue_test_down
+			clc
+			adc #$1f ; add 31 characters onto a position
+continue_test_down
+			tay
+
+			; lda #$03		; test post by displaying different character
+			; sta ($fa),y
+
+			; test top left pos - 2 pixels
+			; lda ($fa),Y
+			; cmp #$1f	; if not space then stop movement ----- I THINK THIS IS WRONG, SHOULDN'T IT BE USING #$20 IN THE MAP ????????????
+			; bne cancel_jump_movement
+			; ; else
+
+			; test bottom left pos - 2 pixels
+			tya
+			clc
+			adc #121
+			bcc test_bottom_left_jump_down
+			inc $fb	; adding 80 to get bottom left corner of sprite, if carry set then inc 
+test_bottom_left_jump_down
+			tay
+
+			; lda #$03
+			; sta ($fa),y
+
+			lda ($fa),y
+			cmp #$1f	; if not space then stop movement ----- I THINK THIS IS WRONG, SHOULDN'T IT BE USING #$20 IN THE MAP ????????????
+			beq perform_jump_down
+
+			lda #$00
+			sta character_jump_index
+
+			inc $d001
+			inc $d001
+			jmp cancel_jump_movement
+
+cancel_jump_movement
+			jmp finalize_jump
+
+perform_jump_down
+			jmp can_jump_down

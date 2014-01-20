@@ -113,8 +113,8 @@ handle_game_first_load
            jsr setup_game_scene
            ; jsr draw_level1_bg
 
-           lda #<handle_plat_setup_irq_2   ; point IRQ Vector to our custom irq routine
-           ldx #>handle_plat_setup_irq_2
+           lda #<handle_play_setup_irq_2   ; point IRQ Vector to our custom irq routine
+           ldx #>handle_play_setup_irq_2
            sta $314    ; store in $314/$315
            stx $315 
 
@@ -188,7 +188,7 @@ handle_about_first_load
 
            jmp complete_irq
 
-handle_plat_setup_irq_2
+handle_play_setup_irq_2
            jsr draw_level1_bg
            jsr set_level1_bg_char_set
 
