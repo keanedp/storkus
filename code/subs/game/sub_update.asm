@@ -334,7 +334,7 @@ test_carry_down_x
 			clc
 			adc #$1f ; add 31 characters onto a position
 continue_test_down
-			tay
+			;tay
 
 			; lda #$03		; test post by displaying different character
 			; sta ($fa),y
@@ -346,7 +346,7 @@ continue_test_down
 			; ; else
 
 			; test bottom left pos - 2 pixels
-			tya
+			;tya
 			clc
 			adc #121
 			bcc test_bottom_left_jump_down
