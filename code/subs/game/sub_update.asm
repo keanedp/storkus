@@ -69,33 +69,33 @@ complete_start_jump
 ;======================
 ;	MOVE LEFT
 ;======================
-move_left   jsr test_left_collision
+move_left   jmp test_left_collision
+can_move_left
+			lda $d000
+			cmp #$18
+			bcc handle_x_high_bit_left
+			beq handle_x_high_bit_left
+contine_handle_x_high_bit_left
+			lda $d000
+			sec
+			sbc #$02
+			sta $d000
+			bcc set_x_low_bit
+complete_move_left
+			jsr animate_left
 			jmp finalize_move_left
-; 			lda $d000
-; 			cmp #$18
-; 			bcc handle_x_high_bit_left
-; 			beq handle_x_high_bit_left
-; contine_handle_x_high_bit_left
-; 			lda $d000
-; 			sec
-; 			sbc #$02
-; 			sta $d000
-; 			bcc set_x_low_bit
-; complete_move_left
-; 			jsr animate_left
-; 			jmp finalize_move_left
 
-; handle_x_high_bit_left
-; 			lda $d010
-; 			cmp #$01
-; 			beq contine_handle_x_high_bit_left
-; 			jmp complete_move_left
+handle_x_high_bit_left
+			lda $d010
+			cmp #$01
+			beq contine_handle_x_high_bit_left
+			jmp complete_move_left
 
-; set_x_low_bit
-; 			sec
-; 			lda #$00    ; set X-Coord high bit (9th Bit)
-; 			sta $d010
-			; jmp complete_move_left
+set_x_low_bit
+			sec
+			lda #$00    ; set X-Coord high bit (9th Bit)
+			sta $d010
+			jmp complete_move_left
 
 ;======================
 ;	MOVE RIGHT
@@ -180,17 +180,40 @@ test_left_collision
 			; figure out x pos and add to y
 			lda $d000
 			sec
-			sbc #$18	; x offset for visible screen
+			sbc #$16	; x offset for visible screen (18, but we will use 16 as check - 2 positions to left...)
 			lsr
 			lsr
 			lsr
 			tay
-test_pos
-			lda #$03
-			sta ($fa),y
-			rts
-;
 
+			; lda #$03		; test post by displaying different character
+			; sta ($fa),y
+			
+			; if it can't continue then jmp to finalize
+magic
+			lda ($fa),y
+			cmp #$1f	; if not space then stop movement ----- I THINK THIS IS WRONG, SHOULDN'T IT BE USING #$20 IN THE MAP ????????????
+			bne cancel_left_movement
+			; ; else
+
+			; ; check bottom left...
+			tya
+			clc
+			adc #80
+			bcc test_bottom_left
+			inc $fb	; adding 80 to get bottom left corner of sprite, if carry set then inc 
+test_bottom_left
+			tay
+			; lda #$03
+			; sta ($fa),y
+			lda ($fa),y
+			cmp #$1f	; if not space then stop movement ----- I THINK THIS IS WRONG, SHOULDN'T IT BE USING #$20 IN THE MAP ????????????
+			bne cancel_left_movement
+
+			jmp can_move_left
+
+cancel_left_movement
+			jmp finalize_move_left
 
 ;======================
 ;	ANIMATE
