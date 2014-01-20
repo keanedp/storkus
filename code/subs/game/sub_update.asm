@@ -69,31 +69,33 @@ complete_start_jump
 ;======================
 ;	MOVE LEFT
 ;======================
-move_left   lda $d000
-			cmp #$18
-			bcc handle_x_high_bit_left
-			beq handle_x_high_bit_left
-contine_handle_x_high_bit_left
-			lda $d000
-			sec
-			sbc #$02
-			sta $d000
-			bcc set_x_low_bit
-complete_move_left
-			jsr animate_left
+move_left   jsr test_left_collision
 			jmp finalize_move_left
+; 			lda $d000
+; 			cmp #$18
+; 			bcc handle_x_high_bit_left
+; 			beq handle_x_high_bit_left
+; contine_handle_x_high_bit_left
+; 			lda $d000
+; 			sec
+; 			sbc #$02
+; 			sta $d000
+; 			bcc set_x_low_bit
+; complete_move_left
+; 			jsr animate_left
+; 			jmp finalize_move_left
 
-handle_x_high_bit_left
-			lda $d010
-			cmp #$01
-			beq contine_handle_x_high_bit_left
-			jmp complete_move_left
+; handle_x_high_bit_left
+; 			lda $d010
+; 			cmp #$01
+; 			beq contine_handle_x_high_bit_left
+; 			jmp complete_move_left
 
-set_x_low_bit
-			sec
-			lda #$00    ; set X-Coord high bit (9th Bit)
-			sta $d010
-			jmp complete_move_left
+; set_x_low_bit
+; 			sec
+; 			lda #$00    ; set X-Coord high bit (9th Bit)
+; 			sta $d010
+			; jmp complete_move_left
 
 ;======================
 ;	MOVE RIGHT
@@ -147,6 +149,39 @@ dec_character_frame_right
 			inc screen_ram + $3f8          ; increase current pointer position
 			dec character_current_frame
 	        rts
+
+; ======================
+;	TEST LEFT COLLISION
+; ======================
+test_left_collision
+			; load x pos and divide by 8 - todo check for high bit on sprite 1, this is dumb right now...
+			; lda $d000
+			; lsr
+			; lsr
+			; lsr
+			; sta $fb
+
+			; y value, use this to get memory address to start from....
+			lda $d001
+			sec
+			sbc #$32
+			lsr
+			lsr
+			lsr
+			tay
+			; todo check for high bit..., it set then add value to 31?
+			lda screen_row_tbl_low,y
+			sta $fa
+			lda screen_row_tbl_high,y
+			sta $fb
+
+			lda #$0a
+			ldy #$00
+test_pos
+			sta ($fa),y
+			rts
+;
+
 
 ;======================
 ;	ANIMATE
