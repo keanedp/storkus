@@ -164,7 +164,7 @@ test_left_collision
 			; y value, use this to get memory address to start from....
 			lda $d001
 			sec
-			sbc #$32
+			sbc #$32	; y offset for visible screen
 			lsr
 			lsr
 			lsr
@@ -175,9 +175,18 @@ test_left_collision
 			lda screen_row_tbl_high,y
 			sta $fb
 
-			lda #$0a
-			ldy #$00
+			ldy #$00	; todo remove this and use x add y offset
+
+			; figure out x pos and add to y
+			lda $d000
+			sec
+			sbc #$18	; x offset for visible screen
+			lsr
+			lsr
+			lsr
+			tay
 test_pos
+			lda #$03
 			sta ($fa),y
 			rts
 ;
