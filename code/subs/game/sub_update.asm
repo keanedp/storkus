@@ -40,8 +40,8 @@ update_charecter
             cpx #$15
             bcs jump_down
             
-            ; test jump up
-
+            jmp test_up_collision
+can_jump_up
             inc character_jump_index
             dec $d001
             dec $d001
@@ -387,6 +387,81 @@ cancel_jump_movement
 
 perform_jump_down
 			jmp can_jump_down
+
+
+;===================
+; TEST UP COLLISION
+;===================
+
+test_up_collision
+			jsr load_y_row_into_fa_zero_page
+
+			lda $d000
+
+			ldx $d010	; is x bit set high?
+			cpx #$01
+			beq  up_collision_shift
+
+			sec
+			sbc #$18	; x offset for visible screen (18, but we will use 16 as check - 2 positions to left...)
+up_collision_shift
+			lsr
+			lsr
+			lsr
+
+			cmp #$00
+			beq test_carry_up_x
+test_carry_up_x
+			ldx $d010	; is x bit set high?
+			cpx #$01
+			bne continue_test_up
+			clc
+			adc #$1d ; add 30 characters onto a position
+continue_test_up
+			tay
+
+			; lda #$03		; test post by displaying different character
+			; sta ($fa),y
+
+			;test top left pos - 2 pixels
+			lda ($fa),y
+			cmp #$1f	; if not space then stop movement ----- I THINK THIS IS WRONG, SHOULDN'T IT BE USING #$20 IN THE MAP ????????????
+			bne stop_upward_movement
+			; ; else
+
+			; test bottom left pos - 2 pixels
+			tya
+			clc
+			adc #2
+			bcc test_right_jump_up
+			inc $fb	; adding 80 to get bottom left corner of sprite, if carry set then inc 
+test_right_jump_up	; add right?
+			tay
+
+			; lda #$03
+			; sta ($fa),y
+
+			lda ($fa),y
+			cmp #$1f	; if not space then stop movement ----- I THINK THIS IS WRONG, SHOULDN'T IT BE USING #$20 IN THE MAP ????????????
+			bne stop_upward_movement ; perform_jump_up
+
+perform_jump_up
+			jmp can_jump_up
+
+stop_upward_movement
+			lda #$29
+			sec
+			sbc character_jump_index
+			sta character_jump_index
+
+			; inc $d001
+			; inc $d001
+			jmp cancel_jump_movement
+
+
+; =========================================
+; TEST FOR NON SOLID GROUND UNDER FOOTING
+;==========================================
 
 handle_fall
 			lda character_jump_index
