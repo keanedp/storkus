@@ -184,8 +184,14 @@ test_left_collision
 
 			; figure out x pos and add to y
 			lda $d000
+
+			ldx $d010	; is x bit set high?
+			cpx #$01
+			beq left_collision_shift
+
 			sec
 			sbc #$18	; x offset for visible screen (18, but we will use 16 as check - 2 positions to left...)
+left_collision_shift
 			lsr
 			lsr
 			lsr
@@ -196,8 +202,14 @@ test_carry_left
 			ldx $d010	; is x bit set high?
 			cpx #$01
 			bne continue_test_left
-			;adc #$1f ; add 31 characters onto a position
+			clc
+			adc #$1d ; add 31 characters onto a position
 continue_test_left
+			clc
+			; adc #80
+			; bcc test_left
+			; inc $fb	; adding 80 to get bottom left corner of sprite, if carry set then inc 
+test_left
 			tay
 
 			; lda #$03		; test post by displaying different character
@@ -385,8 +397,8 @@ handle_fall
 
 			; figure out x pos and add to y
 			lda $d000
-			sec
-			sbc #$18	; x offset for visible screen (18, but we will use 16 as check - 2 positions to left...)
+			; sec
+			; sbc #$18	; x offset for visible screen (18, but we will use 16 as check - 2 positions to left...)
 			lsr
 			lsr
 			lsr
@@ -401,14 +413,26 @@ test_carry_fall_x
 			adc #$1f ; add 31 characters onto a position
 continue_test_fall
 			clc
-			adc #121
-			bcc test_bottom_fall
+			adc #117
+			bcc test_bottom_fall_right
 			inc $fb	; adding 80 to get bottom left corner of sprite, if carry set then inc 
-test_bottom_fall
+test_bottom_fall_right
 			tay
 
-			; lda #$03
+			; lda #$06
 			; sta ($fa),y
+
+			lda ($fa),y
+			cmp #$1f	; if not space then fall on y axis
+			bne complete_fall
+
+			tya
+			clc
+			adc #4
+			bcc test_bottom_fall_left
+			inc $fb	; adding 80 to get bottom left corner of sprite, if carry set then inc 
+test_bottom_fall_left
+			tay
 
 			lda ($fa),y
 			cmp #$1f	; if not space then fall on y axis
