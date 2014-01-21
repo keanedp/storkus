@@ -153,6 +153,7 @@ handle_play_irq_1
            ;jsr inc_score_tens_digit
            jsr update_charecter
            jsr check_in_game_keyboard
+           jsr handle_fall
            jsr write_score
 
            lda #<handle_play_irq_2   ; point IRQ Vector to our custom irq routine

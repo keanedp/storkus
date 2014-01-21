@@ -95,6 +95,7 @@ handle_x_high_bit_left
 			lda $d010
 			cmp #$01
 			beq contine_handle_x_high_bit_left
+
 			jmp complete_move_left
 
 set_x_low_bit
@@ -128,6 +129,7 @@ set_x_high_bit
 			clc
 			lda #$01    ; set X-Coord high bit (9th Bit)
 			sta $d010
+
 			jmp complete_move_right
 
 
@@ -373,3 +375,48 @@ cancel_jump_movement
 
 perform_jump_down
 			jmp can_jump_down
+
+handle_fall
+			lda character_jump_index
+			cmp #$00
+			bne complete_fall
+
+			jsr load_y_row_into_fa_zero_page
+
+			; figure out x pos and add to y
+			lda $d000
+			sec
+			sbc #$18	; x offset for visible screen (18, but we will use 16 as check - 2 positions to left...)
+			lsr
+			lsr
+			lsr
+
+			cmp #$00
+			beq test_carry_fall_x
+test_carry_fall_x
+			ldx $d010	; is x bit set high?
+			cpx #$01
+			bne continue_test_fall
+			clc
+			adc #$1f ; add 31 characters onto a position
+continue_test_fall
+			clc
+			adc #121
+			bcc test_bottom_fall
+			inc $fb	; adding 80 to get bottom left corner of sprite, if carry set then inc 
+test_bottom_fall
+			tay
+
+			; lda #$03
+			; sta ($fa),y
+
+			lda ($fa),y
+			cmp #$1f	; if not space then fall on y axis
+			bne complete_fall
+
+			inc $d001
+			inc $d001
+			inc $d001
+			inc $d001
+complete_fall
+			rts
