@@ -413,7 +413,7 @@ test_carry_fall_x
 			adc #$1f ; add 31 characters onto a position
 continue_test_fall
 			clc
-			adc #117
+			adc #118
 			bcc test_bottom_fall_right
 			inc $fb	; adding 80 to get bottom left corner of sprite, if carry set then inc 
 test_bottom_fall_right
@@ -428,11 +428,14 @@ test_bottom_fall_right
 
 			tya
 			clc
-			adc #4
+			adc #2
 			bcc test_bottom_fall_left
 			inc $fb	; adding 80 to get bottom left corner of sprite, if carry set then inc 
 test_bottom_fall_left
 			tay
+
+			; lda #$06
+			; sta ($fa),y
 
 			lda ($fa),y
 			cmp #$1f	; if not space then fall on y axis
