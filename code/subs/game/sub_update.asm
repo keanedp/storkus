@@ -470,10 +470,15 @@ handle_fall
 
 			jsr load_y_row_into_fa_zero_page
 
-			; figure out x pos and add to y
 			lda $d000
-			; sec
-			; sbc #$18	; x offset for visible screen (18, but we will use 16 as check - 2 positions to left...)
+
+			ldx $d010	; is x bit set high?
+			cpx #$01
+			beq fall_collision_shift
+
+			sec
+			sbc #$18	; x offset for visible screen (18, but we will use 16 as check - 2 positions to left...)
+fall_collision_shift
 			lsr
 			lsr
 			lsr
@@ -485,10 +490,10 @@ test_carry_fall_x
 			cpx #$01
 			bne continue_test_fall
 			clc
-			adc #$1f ; add 31 characters onto a position
+			adc #$1d ; add 31 characters onto a position
 continue_test_fall
 			clc
-			adc #118
+			adc #120
 			bcc test_bottom_fall_right
 			inc $fb	; adding 80 to get bottom left corner of sprite, if carry set then inc 
 test_bottom_fall_right
