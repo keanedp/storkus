@@ -521,9 +521,10 @@ test_bottom_fall_left
 			cmp #$1f	; if not space then fall on y axis
 			bne complete_fall
 
-			inc $d001
-			inc $d001
-			inc $d001
-			inc $d001
+			lda $d001
+			clc
+			adc #$04
+			sta $d001
+			
 complete_fall
 			rts
