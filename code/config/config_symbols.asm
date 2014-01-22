@@ -19,7 +19,7 @@ ddra = $dc02     ; CIA#1 (Data Direction Register A)
 ddrb = $dc03     ; CIA#1 (Data Direction Register B)
 screen_ram = $0400
 
-game_bg_color = $0e
+game_bg_color = $05
 delay_animation_pointer   = $9e
 sprite_frames_character = 10
 sprite_pointer_character_right = address_sprites / $40

@@ -26,10 +26,10 @@ set_level1_bg_char_set
 			         lda #$18      ; turn on multicolor for characters 
 			         sta $d016
 
-			         lda #$0e
+			         lda #$0a
 			         sta $d022
 
-			         lda #$06
+			         lda #$08
  					 sta $d023
 
 			         rts
