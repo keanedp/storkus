@@ -337,7 +337,7 @@ test_down_collision
 
 			ldx $d010	; is x bit set high?
 			cpx #$01
-			beq  down_collision_shift
+			beq down_collision_shift
 
 			sec
 			sbc #$18	; x offset for visible screen (18, but we will use 16 as check - 2 positions to left...)
@@ -355,6 +355,11 @@ test_carry_down_x
 			clc
 			adc #$1d ; add 31 characters onto a position
 continue_test_down
+			clc
+			adc #120
+			bcc test_bottom_left_jump_down
+			inc $fb	; adding 80 to get bottom left corner of sprite, if carry set then inc 
+test_bottom_left_jump_down
 			tay
 
 			; lda #$03		; test post by displaying different character
@@ -369,10 +374,10 @@ continue_test_down
 			; test bottom left pos - 2 pixels
 			tya
 			clc
-			adc #120
-			bcc test_bottom_left_jump_down
+			adc #3
+			bcc test_bottom_right_jump_down
 			inc $fb	; adding 80 to get bottom left corner of sprite, if carry set then inc 
-test_bottom_left_jump_down
+test_bottom_right_jump_down
 			tay
 
 			; lda #$03
