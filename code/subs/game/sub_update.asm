@@ -68,6 +68,8 @@ start_jump	; test down if that's the direction we are going, else test up...
 			ldx character_jump_index
 			cpx #$00
 			bne complete_start_jump
+			jmp test_can_jump
+continue_with_jump
 			inc character_jump_index
 complete_start_jump
 			jmp finalize_jump
@@ -348,19 +350,19 @@ test_carry_down_x
 			clc
 			adc #$1f ; add 31 characters onto a position
 continue_test_down
-			;tay
+			tay
 
 			; lda #$03		; test post by displaying different character
 			; sta ($fa),y
 
 			; test top left pos - 2 pixels
-			; lda ($fa),Y
-			; cmp #$1f	; if not space then stop movement ----- I THINK THIS IS WRONG, SHOULDN'T IT BE USING #$20 IN THE MAP ????????????
-			; bne cancel_jump_movement
+			lda ($fa),Y
+			cmp #$1f	; if not space then stop movement ----- I THINK THIS IS WRONG, SHOULDN'T IT BE USING #$20 IN THE MAP ????????????
+			bne cancel_jump_movement
 			; ; else
 
 			; test bottom left pos - 2 pixels
-			;tya
+			tya
 			clc
 			adc #121
 			bcc test_bottom_left_jump_down
@@ -409,8 +411,8 @@ up_collision_shift
 			lsr
 			lsr
 
-			cmp #$00
-			beq test_carry_up_x
+			; cmp #$00
+			; beq test_carry_up_x
 test_carry_up_x
 			ldx $d010	; is x bit set high?
 			cpx #$01
@@ -451,7 +453,7 @@ perform_jump_up
 stop_upward_movement
 			lda #$29
 			sec
-			sbc character_jump_index
+			sbc character_jump_index	; set index so that remainder is left to fall
 			sta character_jump_index
 
 			; inc $d001
@@ -528,3 +530,67 @@ test_bottom_fall_left
 			
 complete_fall
 			rts
+
+
+; ======================
+;	TEST CAN JUMP
+; ======================
+test_can_jump
+			jsr load_y_row_into_fa_zero_page
+
+			lda $d000
+
+			ldx $d010	; is x bit set high?
+			cpx #$01
+			beq test_can_jump_shift
+
+			sec
+			sbc #$18	; x offset for visible screen (18, but we will use 16 as check - 2 positions to left...)
+test_can_jump_shift
+			lsr
+			lsr
+			lsr
+
+test_can_jump_carry_x
+			ldx $d010	; is x bit set high?
+			cpx #$01
+			bne continue_test_can_jump
+			clc
+			adc #$1d ; add 31 characters onto a position
+continue_test_can_jump
+			clc
+			adc #120
+			bcc test_bottom_can_jump_right
+			inc $fb	; adding 80 to get bottom left corner of sprite, if carry set then inc 
+test_bottom_can_jump_right
+			tay
+
+			; lda #$06
+			; sta ($fa),y
+
+			lda ($fa),y
+			cmp #$1f	; if not space then fall on y axis
+			bne can_continue_with_jump
+
+			tya
+			clc
+			adc #2
+			bcc test_bottom_can_jump_left
+			inc $fb	; adding 80 to get bottom left corner of sprite, if carry set then inc 
+test_bottom_can_jump_left
+			tay
+
+			; lda #$06
+			; sta ($fa),y
+
+			lda ($fa),y
+			cmp #$1f	; if not space then fall on y axis
+			bne can_continue_with_jump
+
+			jmp cannot_continue_with_jump
+			
+can_continue_with_jump
+			jmp continue_with_jump
+
+cannot_continue_with_jump
+			jmp complete_start_jump
