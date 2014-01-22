@@ -333,10 +333,15 @@ dec_character_frame_left
 test_down_collision
 			jsr load_y_row_into_fa_zero_page
 
-			; figure out x pos and add to y
 			lda $d000
+
+			ldx $d010	; is x bit set high?
+			cpx #$01
+			beq  down_collision_shift
+
 			sec
 			sbc #$18	; x offset for visible screen (18, but we will use 16 as check - 2 positions to left...)
+down_collision_shift
 			lsr
 			lsr
 			lsr
