@@ -24,9 +24,9 @@ delay_animation_pointer   = $9e
 sprite_frames_character = 10
 sprite_pointer_character_right = address_sprites / $40
 sprite_pointer_character_left = (address_sprites / $40) + 8
-sprite_multicolor_1       = $03
+sprite_multicolor_1       = $00
 sprite_multicolor_2       = $01
-sprite_character_color    = $00
+sprite_character_color    = $03
 
 ; global memory
 menu_selected_option = $0900
